@@ -1,3 +1,6 @@
+# Bash files (for a while)
+*.bash
+
 # Object files
 *.o
 
