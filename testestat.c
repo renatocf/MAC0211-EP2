@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<math.h>
 
 float stat_gen_uniform(int init, int end);
 float stat_gen_gaussian(int init, int end);
@@ -11,7 +12,7 @@ int main(int argc, char*argv[])
     init = atoi(argv[1]);
     end = atoi(argv[2]);
     for(i=0;i<30;i++)
-        printf("%f\n",stat_gen_uniform(init, end));
+        printf("%f\n",stat_gen_gaussian(init, end));
     return 0;
 }
 
@@ -26,8 +27,17 @@ float stat_gen_uniform(int init, int end)
 
 float stat_gen_gaussian(int init, int end)
 {
-    int i, soma;
-    soma = 0;
-    for(i = 0; i < 30; i++) soma += (int) stat_gen_uniform(init, end);
-    return (float)soma/30;
+    float a, b, s;
+    do
+    {
+      a = 2.0*rand()/RAND_MAX - 1;
+      b = 2.0*rand()/RAND_MAX - 1;
+      s = a*a + b*b;
+    }
+    while(s >= 1);
+
+    a = a*sqrt(-2*log(s)/s);
+    printf("%d/n", a);
+    return (a+1)*((end-init)/2.0) + init;
 }
+
