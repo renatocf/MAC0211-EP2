@@ -16,7 +16,7 @@ typedef struct options {
 } Options;
 
 /* Mensagens */
-char help[] = "Ops, ainda não fiz a mensagem de ajuda...";
+char help[] = "Ops, ainda não fiz a mensagem de ajuda...\n";
 
 
 /*
