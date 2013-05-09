@@ -44,7 +44,7 @@ clean:
 	rmdir
 
 # DEPENDENCIES #########################################################
-$(DEP): $(SRC)
+$(DEP): $(SRC) | $(LIBDIR)
 	$(CC) $(SRCDIR)/* $(CLIBS) -MM $(LDLIBS) > $@
 	$(SED) -e 's/\.o/\.c/' -e 's/: .*c /: /' -i $@
 include $(DEP)
@@ -64,9 +64,13 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 
 # GENERATED DIR ########################################################
 $(BINDIR):
-	@ echo Criando diretório de binários "$(OBJDIR)"
+	@ echo Criando diretório de binários "$@"
 	$(MKDIR) $@
 
 $(OBJDIR):
-	@ echo Criando diretório de objetos "$(OBJDIR)"
+	@ echo Criando diretório de objetos "$@"
+	-$(MKDIR) $@
+
+$(LIBDIR):
+	@ echo Criando diretório de objetos "$@"
 	-$(MKDIR) $@
