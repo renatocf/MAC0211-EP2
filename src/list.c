@@ -15,7 +15,7 @@ void list_free(List list)
 {
     while(!list_empty(list))
         list_remove(list, list->head);
-    free(list->head); free(list);
+    free(list_head(list)); free(list);
 }
 
 int list_empty(List list)
@@ -26,12 +26,26 @@ int list_empty(List list)
 
 LItem list_remove(List list, Link node)
 {
-    LItem item = node->next->item;
-    Link dead = node->next;
-    
-    node->next = dead->next;
-    free(dead); dead = NULL;
-    return item;
+    if(list_next(node) != list_head(list) && list_head(list)->next!= list_head(list))
+    {
+        LItem item = node->next->item;
+        Link dead = node->next;
+
+        node->next = dead->next;
+        free(dead); dead = NULL;
+        return item;
+    }
+    else if(list_head(list) != list_head(list))
+    {
+        LItem item = node->next->next->item;
+        Link dead = node->next->next;
+
+        node->next->next = dead->next;
+        free(dead); dead = NULL;
+        return item;
+    }
+
+    return NULL;
 }
 
 void list_insert(List list, LItem item)
