@@ -9,9 +9,11 @@ VPATH = $(SRCDIR):$(LIBDIR):$(BINDIR) # : $(patsubst %.c,%:,$(shell ls src))
 # SOURCE ###############################################################
 SRC := $(shell ls $(SRCDIR))
 OBJ := $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
-LIB := getopt.c
+LIB := $(CONFDIR)/libraries.mk
 DEP := $(CONFDIR)/dependencies.mk
 BIN := ep2
+
+include $(LIB)
 
 # PROGRAMS #############################################################
 AR := ar
@@ -39,12 +41,13 @@ all: $(DEP) $(BIN)
 .PHONY: clean
 clean:
 	$(RM) $(OBJDIR)/*.o *~ gmon.out
+	rmdir
 
 # DEPENDENCIES #########################################################
 $(DEP): $(SRC)
 	$(CC) $(SRCDIR)/* $(CLIBS) -MM $(LDLIBS) > $@
 	$(SED) -e 's/\.o/\.c/' -e 's/: .*c /: /' -i $@
--include $(DEP)
+include $(DEP)
 
 # GAME #################################################################
 $(BIN): $(OBJ) | $(LIBS) $(BINDIR)
@@ -52,15 +55,14 @@ $(BIN): $(OBJ) | $(LIBS) $(BINDIR)
 
 $(OBJ): | $(OBJDIR)
 
-lib%.a: %.o 
+# BUILD ################################################################
+lib%.a: $(OBJDIR)/$(notdir %.o)
 	$(AR) $(ARFLAGS) $(LIBDIR)/$@ $<
-
-%.o: $(SRCDIR)/%.c
-	$(CC) $(CFLAGS) $(CLIBS) -c $< -o $(OBJDIR)/$@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(CLIBS) -c $< -o $@
 
+# GENERATED DIR ########################################################
 $(BINDIR):
 	@ echo Criando diretório de binários "$(OBJDIR)"
 	$(MKDIR) $@
@@ -68,4 +70,3 @@ $(BINDIR):
 $(OBJDIR):
 	@ echo Criando diretório de objetos "$(OBJDIR)"
 	-$(MKDIR) $@
-
