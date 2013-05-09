@@ -3,13 +3,14 @@ SRCDIR := src
 OBJDIR := obj
 BINDIR := bin
 LIBDIR := lib
+CONFDIR := conf
 VPATH = $(SRCDIR):$(LIBDIR):$(BINDIR) # : $(patsubst %.c,%:,$(shell ls src))
 
 # SOURCE ###############################################################
 SRC := $(shell ls $(SRCDIR))
 OBJ := $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 LIB := getopt.c
-DEP := dependencies.mk
+DEP := $(CONFDIR)/dependencies.mk
 BIN := ep2
 
 # PROGRAMS #############################################################
@@ -32,17 +33,33 @@ ARFLAGS := -rcv
 LDLIBS  := -L$(LIBDIR)
 LDFLAGS := -lm $(patsubst lib%.a,-l%,$(LIBS)) -lc -pg
 
-# BUILD ################################################################
-$(BIN): $(OBJ) | $(DEP) $(LIBS) $(BINDIR)
+.PHONY: all
+all: $(DEP) $(BIN)
+
+.PHONY: clean
+clean:
+	$(RM) $(OBJDIR)/*.o *~ gmon.out
+
+# DEPENDENCIES #########################################################
+$(DEP): $(SRC)
+	$(CC) $(SRCDIR)/* $(CLIBS) -MM $(LDLIBS) > $@
+	$(SED) -e 's/\.o/\.c/' -e 's/: .*c /: /' -i $@
+-include $(DEP)
+
+# GAME #################################################################
+$(BIN): $(OBJ) | $(LIBS) $(BINDIR)
 	$(CC) $^ -o $(BINDIR)/$@ $(LDLIBS) $(LDFLAGS)
 
-$(OBJ): $(OBJDIR)
+$(OBJ): | $(OBJDIR)
 
 lib%.a: %.o 
-	$(AR) $(ARFLAGS) $(LIBDIR)/$@ $(OBJDIR)/$<
+	$(AR) $(ARFLAGS) $(LIBDIR)/$@ $<
 
 %.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(CLIBS) -c $< -o $(OBJDIR)/$@
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	$(CC) $(CFLAGS) $(CLIBS) -c $< -o $@
 
 $(BINDIR):
 	@ echo Criando diretório de binários "$(OBJDIR)"
@@ -52,13 +69,3 @@ $(OBJDIR):
 	@ echo Criando diretório de objetos "$(OBJDIR)"
 	-$(MKDIR) $@
 
-# DEPENDENCIES #########################################################
-$(DEP):
-	@$(CC) $(SRCDIR)/* $(CLIBS) -MM $(LDLIBS) > $@
-	@$(SED) -e 's/\.o/\.c/' -e 's/: .*c /: /' $@ | $(CAT) > $@
--include $(DEP)
-
-# OTHER OPTIONS ########################################################
-.PHONY: clean
-clean:
-	$(RM) $(OBJDIR)/*.o *~ gmon.out

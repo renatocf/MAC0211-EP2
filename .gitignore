@@ -1,5 +1,6 @@
 # Binaries
 ep2
+conf/dependencies.mk
 
 # Bash files (for a while)
 *.bash
