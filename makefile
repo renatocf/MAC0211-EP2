@@ -21,10 +21,11 @@ CC := gcc
 RM := rm -f
 SED := sed
 CAT := cat
+FIND := find -type d
 MKDIR := mkdir -p
 
 # COMPILER #############################################################
-CLIBS  := -Iinclude $(patsubst %,-I%,$(shell find include -type d))
+CLIBS  := $(patsubst %,-I%,$(shell find include -type d))
 CFLAGS := -ansi -Wall -pedantic -g -pg
 
 # LIBRARIES ############################################################

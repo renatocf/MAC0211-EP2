@@ -11,7 +11,9 @@
 typedef terrain *TStrip;
 
 /* Funções para manipular faixas de terreno */
-void   TStrip_free     (TStrip);
-TStrip TStrip_generate (int size, TStrip base);
+void   tstrip_seed     (int);
+void   tstrip_free     (TStrip);
+TStrip tstrip_generate (int size, int maxl, int maxr, 
+                        float normalization, TStrip base);
 
 #endif

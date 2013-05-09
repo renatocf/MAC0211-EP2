@@ -1,8 +1,8 @@
 #ifndef H_TERRAIN_DEFINED
 #define H_TERRAIN_DEFINED
 
-#define LAND  #
-#define WATER .
+#define LAND  '#'
+#define WATER '.'
 
 /* Define o tipo TERRENO: um ponto 
  * flutuante que guarda a velocidade
