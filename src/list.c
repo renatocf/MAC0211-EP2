@@ -51,8 +51,9 @@ LItem list_remove(List list, Link node)
 void list_insert(List list, LItem item)
 {
     Link new = (Link) mallocSafe(sizeof(*new));
-    new->item = item; new->next = list->head->next;
-    list->head->next = new;
+    list->head->item = item; 
+    new->next = list->head->next; list->head->next = new;
+    list->head = new;
 }
 
 Link list_head(List list) { return list->head; }
