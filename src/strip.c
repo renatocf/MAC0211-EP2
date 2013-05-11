@@ -7,17 +7,17 @@
 #include "terrain.h"
 #include "strip.h"
 
-
 #define PROB_ISLAND 0.20
 
 int seed = 13;
 
-void tstrip_seed(int seed) { stat_set_seed(seed); }
+void tstrip_seed(int seed)     { stat_set_seed(seed); }
+void tstrip_free(TStrip strip) { free(strip); }
 
 TStrip tstrip_generate(int size, int maxl, int maxr,
                        float normalization, TStrip base)
 {
-    TStrip nova = (TStrip)mallocSafe(size * sizeof(*nova));
+    TStrip nova = (TStrip) mallocSafe(size * sizeof(nova));
     int lmargin, rmargin, i; double sum = 0, K;
 
     if(base == NO_BASE)
@@ -90,7 +90,7 @@ TStrip tstrip_generate(int size, int maxl, int maxr,
                     if(i == maxl+1 || i == maxr-1)nova[i].t = WATER;
                     else nova[i].t = LAND;
                 }
-                else if(base[i] == LAND/* && nova[i] == WATER*/)
+                else if(base[i].t == LAND/* && nova[i] == WATER*/)
                 {
                     nova[i].v = stat_gen_uniform(0,PI/4);
                     sum += nova[i].v;
@@ -98,7 +98,7 @@ TStrip tstrip_generate(int size, int maxl, int maxr,
                 }
                 else/*Era água e continua água*/
                 {
-                    nova[i].v = base[i] + stat_gen_gaussian(0, 1);;
+                    nova[i].v = base[i].v + stat_gen_gaussian(0, 1);;
                     sum += nova[i].v;
                     nova[i].t = WATER;
                 }
@@ -114,6 +114,3 @@ TStrip tstrip_generate(int size, int maxl, int maxr,
     return nova;
 }
 
-void tstrip_free(TStrip)
-{
-}

@@ -1,7 +1,8 @@
-#ifndef H_TERRAIN_INTERNAL_DEFINED
-#define H_TERRAIN_INTERNAL_DEFINED
+#ifndef H_TERRAIN_DEFINED
+#define H_TERRAIN_DEFINED
 
-#include "terrain.h"
+#define LAND  '#'
+#define WATER '.'
 
 /* Tipo para terreno: struct com
  * campos de VELOCIDADE (v) e TIPO 
@@ -10,5 +11,6 @@ struct _terrain {
     float v;
     char  t;
 };
+typedef struct _terrain terrain;
 
 #endif

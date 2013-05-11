@@ -4,7 +4,9 @@ OBJDIR := obj
 BINDIR := bin
 LIBDIR := lib
 CONFDIR := conf
-VPATH = $(SRCDIR):$(LIBDIR):$(BINDIR) # : $(patsubst %.c,%:,$(shell ls src))
+TESTDIR := test
+VPATH = $(SRCDIR):$(LIBDIR):$(BINDIR):$(TESTDIR) 
+	# : $(patsubst %.c,%:,$(shell ls src))
 
 # SOURCE ###############################################################
 SRC := $(shell ls $(SRCDIR))
@@ -21,7 +23,7 @@ CC := gcc
 RM := rm -f
 SED := sed
 CAT := cat
-FIND := find -type d
+RMDIR := rmdir
 MKDIR := mkdir -p
 
 # COMPILER #############################################################
@@ -41,8 +43,8 @@ all: $(DEP) $(BIN)
 
 .PHONY: clean
 clean:
-	$(RM) $(OBJDIR)/*.o *~ gmon.out
-	rmdir
+	$(RM) $(OBJDIR)/*.o $(LIBDIR)/*.a $(LIBDIR)/*.so *~ gmon.out
+	$(RMDIR) $(OBJDIR)
 
 # DEPENDENCIES #########################################################
 $(DEP): $(SRC) | $(LIBDIR)
@@ -63,6 +65,10 @@ lib%.a: $(OBJDIR)/$(notdir %.o)
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(CLIBS) -c $< -o $@
 
+# TESTS ################################################################
+$(TESTDIR)/%: $(TESTDIR)/%.c
+	$(CC) $(CFLAGS) $(CLIBS) -o $(TESTDIR)/$* $(LDLIBS) $(LDFLAGS)
+	
 # GENERATED DIR ########################################################
 $(BINDIR):
 	@ echo Criando diretório de binários "$@"
