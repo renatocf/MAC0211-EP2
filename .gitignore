@@ -1,5 +1,5 @@
 # Binaries
-ep2
+bin/
 conf/dependencies.mk
 
 # Bash files (for a while)
