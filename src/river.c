@@ -1,16 +1,19 @@
+#include <stdlib.h>
+
 #include "list.h"
 #include "utils.h"
 #include "strip.h"
 
-typedef struct config Config
-static struct config {
-    int length;
-    int height;
-    int left_margin;
-    int right_margin;
-    int flux;
-}
+typedef struct conf Conf;
+struct conf {
+    int   length;
+    int   height;
+    int   left_margin;
+    int   right_margin;
+    float flux;
+};
 
+static Conf Config;
 static List river; 
 static TStrip base;
 /*
@@ -20,7 +23,7 @@ void river_config_flux(int flux) { Config.flux = flux; }
 
 void river_config_size(int length, int height)
 {
-    Config.height = heigh; 
+    Config.height = height;
     Config.length = length; 
 }
 
@@ -34,9 +37,11 @@ void river_animation_generate(int seed)
 {
     /** VARIÁVEIS *****************************************************/
         int i = 0;                      /* Contador                  */
-        int height = Config.height;     /* Altura do grid            */
-        int length = Config.length;     /* Largura do grid           */
-        TStrip first_line, new_line;    /* Terrenos referência       */
+        TStrip new_line;                /* Linha gerada              */
+        TStrip first_line;              /* 1ª linha gedara           */
+        float flux = Config.flux;       /* Fluxo total do rio        */
+        int height = Config.height;     /* Altura total do grid      */
+        int length = Config.length;     /* Largura total do rio      */
         int maxl = Config.left_margin;  /* Máxima faixa equerda      */
         int maxr = Config.right_margin; /* Máxima faixa direita      */
         
@@ -46,29 +51,28 @@ void river_animation_generate(int seed)
     
     /** INICIALIZA RIO ************************************************/
         /* Primeira linha, que servirá de base para todo o rio */
-        first_line = strip_generate(length, maxl, maxr, flux, NO_BASE);
+        first_line = tstrip_generate(length, maxl, maxr, flux, NO_BASE);
         
         /* Preenche 'altura' faixs de terreno na lista: */
         list_insert(river, first_line);
         for(i = 1, base = first_line; i < height; i++, base = new_line)
         {
-            new_line = strip_generate(length, maxl, maxr, flux, base);
+            new_line = tstrip_generate(length, maxl, maxr, flux, base);
             list_insert(river, new_line);
         }
         
     /** IMPRIME RIO ***************************************************/
-        list_select(river, strip_print);
+        list_select(river, tstrip_print);
 }
 
 void river_animation_iterate()
 {
     /** VARIÁVEIS *****************************************************/
         TStrip top, bottom;
-        int height = Config.height;     /* Altura do grid            */
+        float flux = Config.flux;       /* Fluxo do rio              */
         int length = Config.length;     /* Largura do grid           */
         int maxl = Config.left_margin;  /* Máxima faixa equerda      */
         int maxr = Config.right_margin; /* Máxima faixa direita      */
-        TStrip top, bottom;
         
     /** AVANÇA FAIXA DE TERRENO ***************************************/
         /* Libera linha do topo do grid ('saindo da tela') */
@@ -76,11 +80,11 @@ void river_animation_iterate()
         tstrip_free(top); top = NULL;
         
         /* Cria linha da base do grid ('entrando na tela') */
-        bottom = strip_generate(length, maxl, maxr, flux, base);
+        bottom = tstrip_generate(length, maxl, maxr, flux, base);
         list_insert(river, bottom);
         
     /** IMPRIME RIO ***************************************************/
-        list_select(river, tstrip_print)
+        list_select(river, tstrip_print);
 }
 
 void river_animation_finish() 
