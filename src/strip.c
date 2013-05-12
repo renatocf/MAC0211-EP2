@@ -15,7 +15,7 @@ void tstrip_free(TStrip strip) { free(strip); }
 
 void tstrip_print(TStrip strip)
 {
-    
+
 }
 
 TStrip tstrip_generate(int size, int maxl, int maxr,
@@ -77,7 +77,7 @@ TStrip tstrip_generate(int size, int maxl, int maxr,
             /*A ilha deve vir aqui*/
             if(stat_gen_uniform(0, 1) < PROB_ISLAND)
             {
-                tam_island = (int) stat_gen_gaussian((maxr + maxl)/2, 1);
+                tam_island = (int) stat_gen_gaussian((maxr - maxl)/2, 1);
                 pos_island =(int) stat_gen_uniform(maxl, maxr - tam_island -1);
                 for(i = pos_island-1; i <= tam_island+1; i++)
                 {
