@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
-#include "list-internal.h"
 #include "utils.h"
+#include "list-internal.h"
 
 List list_init(int N)
 {
@@ -15,11 +15,12 @@ void list_free(List list)
 {
     while(!list_empty(list))
         list_remove(list, list->head);
-    free(list_head(list)); free(list);
+    free(list_head(list)); free(list); 
 }
 
 int list_empty(List list)
 {
+    if(list == NULL) return 0;
     if(list->head == list->head->next) return 1;
     return 0;
 }
@@ -56,8 +57,9 @@ void list_insert(List list, LItem item)
     list->head = new;
 }
 
-Link list_head(List list) { return list->head; }
-Link list_next(Link node) { return node->next; }
+Link  list_head(List list) { return list->head; }
+Link  list_next(Link node) { return node->next; }
+LItem list_item(Link node) { return node->item; }
 
 void list_select(List list, void (*visit) (LItem))
 {

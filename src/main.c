@@ -38,28 +38,6 @@ int receive_arguments (int argc, char **argv, Options *args);
 */
 int main(int argc, char **argv)
 {
-    List lista;
-    Link nova = malloc(sizeof(Link));
-    nova = malloc(sizeof(Link));
-    lista = list_init(2);
-
-    printf("\n %d \n", list_empty(lista));
-
-
-list_insert(lista, nova);
-printf("%d\n", list_empty(lista));
-
-list_remove(lista, nova);
-printf("@\n");
-
-list_free(lista);
-printf("-----");
-printf("%d\n", list_empty(lista));
-
-
-
-
-
 
     /** VARIÁVEIS *****************************************************/
 /*        int func_err;*/
