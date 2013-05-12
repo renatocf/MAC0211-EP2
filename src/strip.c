@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "statistical.h"
-#include "utils.h"
-/*#include "list.h"*/
-#include "terrain.h"
 #include "strip.h"
+#include "utils.h"
+#include "terrain.h"
+#include "statistical.h"
 
 #define PROB_ISLAND 0.20
 
@@ -13,6 +12,11 @@ int seed = 13;
 
 void tstrip_seed(int seed)     { stat_set_seed(seed); }
 void tstrip_free(TStrip strip) { free(strip); }
+
+void tstrip_print(TStrip strip)
+{
+    
+}
 
 TStrip tstrip_generate(int size, int maxl, int maxr,
                        float normalization, TStrip base)
