@@ -2,8 +2,9 @@
 #define H_RIVER_DEFINED
 
 /* Funções para configuração de parâmetros */
-void river_config_flux        (int);
+void river_config_flux        (float);
 void river_config_size        (int, int); /* largura/altura */
+void river_config_island      (float);    /* probabilidade da ilha */
 void river_config_margins     (int, int); /* esquerda/direita */
 
 /* Funções para controle de animação */

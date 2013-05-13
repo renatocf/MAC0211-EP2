@@ -6,17 +6,11 @@
 #include "terrain.h"
 #include "statistical.h"
 
-#define PROB_ISLAND 0.20
+float prob_island; /* Probabilidade de haver uma ilha na linha */
 
-int seed = 13;
-
-void tstrip_seed(int seed)     { stat_set_seed(seed); }
+void tstrip_seed  (int seed)   { stat_set_seed(seed); }
+void tstrip_island(float prob) { prob_island = prob; }
 void tstrip_free(TStrip strip) { free(strip); }
-
-void tstrip_print(TStrip strip)
-{
-
-}
 
 TStrip tstrip_generate(int size, int maxl, int maxr,
                        float normalization, TStrip base)
@@ -75,7 +69,7 @@ TStrip tstrip_generate(int size, int maxl, int maxr,
             maxl = (int)stat_gen_gaussian(maxl, 1);
             maxr = (int)stat_gen_gaussian(maxr, 1);
             /*A ilha deve vir aqui*/
-            if(stat_gen_uniform(0, 1) < PROB_ISLAND)
+            if(stat_gen_uniform(0, 1) < prob_island)
             {
                 tam_island = (int) stat_gen_gaussian((maxr - maxl)/2, 1);
                 pos_island =(int) stat_gen_uniform(maxl, maxr - tam_island -1);
@@ -112,7 +106,7 @@ TStrip tstrip_generate(int size, int maxl, int maxr,
         else printf("problems...");
 
         K = normalization/sum;
-        for(i = maxl; i < maxr; i++)nova[i].v *= K;
+        for(i = maxl; i < maxr; i++) nova[i].v *= K;
     }
 
     return nova;

@@ -22,7 +22,10 @@
 -----------------------------------------------------------------------
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 */
-void river_config_flux(int flux) { Config.flux = flux; }
+void river_config_flux   (float flux)          
+    { Config.flux = flux; }
+void river_config_island (float prob_island) 
+    { Config.prob_island = prob_island; }
 
 void river_config_size(int length, int height)
 {
@@ -97,11 +100,12 @@ void river_animation_iterate()
         list_select(river, strip_print);
 }
 
-void strip_print(TStrip strip)
+static void strip_print(TStrip strip)
 {
-    int i = 0, j = 0; /* Contador */
-    for(i = 0; i < Config.lenght; i++)
-        printf("%c", strip[i]);
+    int i = 0; /* Contador */
+    for(i = 0; i < Config.length; i++)
+        printf("%c", strip[i].t);
+    printf("\n");
 }
 
 void river_animation_finish() 

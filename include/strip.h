@@ -5,7 +5,7 @@
 
 /* Critério utilizado para declarar que o 
  * terreno não será baseado em nenhum outro */
-#define NO_BASE NULL
+#define NO_BASE     NULL
 
 /* Faixa de terreno: vetor de terrenos */
 typedef terrain *TStrip;
@@ -14,6 +14,7 @@ typedef terrain *TStrip;
 void   tstrip_seed     (int);
 void   tstrip_free     (TStrip);
 void   tstrip_print    (TStrip);
+void   tstrip_island   (float prob);
 TStrip tstrip_generate (int size, int maxl, int maxr, 
                         float normalization, TStrip base);
 

@@ -7,11 +7,16 @@ struct conf {
     int   height;
     int   left_margin;
     int   right_margin;
+    float prob_island;
     float flux;
 };
 
 static Conf Config;
 static List river; 
 static TStrip base;
+
+/* Função auxiliar para imprimir
+ * a faixa de terra */
+static void strip_print (TStrip);
 
 #endif
