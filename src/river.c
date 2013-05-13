@@ -6,6 +6,7 @@
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 */
 /* Bibliotecas-padrão */
+#include <stdio.h>
 #include <stdlib.h>
 
 /* bibliotecas internas */
@@ -71,7 +72,7 @@ void river_animation_generate(int seed)
         }
         
     /** IMPRIME RIO ***************************************************/
-        list_select(river, tstrip_print);
+        list_select(river, strip_print);
 }
 
 void river_animation_iterate()
@@ -93,7 +94,14 @@ void river_animation_iterate()
         list_insert(river, bottom);
         
     /** IMPRIME RIO ***************************************************/
-        list_select(river, tstrip_print);
+        list_select(river, strip_print);
+}
+
+void strip_print(TStrip strip)
+{
+    int i = 0, j = 0; /* Contador */
+    for(i = 0; i < Config.lenght; i++)
+        printf("%c", strip[i]);
 }
 
 void river_animation_finish() 
