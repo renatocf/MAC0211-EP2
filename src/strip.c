@@ -22,16 +22,14 @@ TStrip tstrip_generate(int size, int maxl, int maxr,
     if(base == NO_BASE)
     {
         /* Sorteia limites das marges esquerda/direita */
-size = 100;
         lmargin = (int) stat_gen_uniform(0, maxl);
         rmargin = (int) stat_gen_uniform(maxr, size-1);
-printf("\n %d %d \n", lmargin, rmargin);                    /**/
 
         /* Gera terra na margem esquerda com velocidade 0.
          * A velocidade da água no limite da margem também é 0. */
-        for(i = 0; i <= lmargin; i++)                       /* i<lmargin+1 */
+        for(i = 0; i <= lmargin; i++)
             { printf("%d ", i); nova[i].v = 0; nova[i].t = LAND; }
-        nova[i+1].v = 0; nova[i+1].t = WATER;               /* nova[i] */
+        nova[i+1].v = 0; nova[i+1].t = WATER;
         printf("\n");
         
         /* Gera terra na margem direita com velocidade 0.
@@ -45,7 +43,7 @@ printf("\n %d %d \n", lmargin, rmargin);                    /**/
         /* Gera água entre os limites de ambas as margens (exceto
          * nas casas laterais, em que v = 0). Vai somando os valores
          * (Ω) para posterior normalização. */
-        for(sum = 0, i = lmargin+2; i <= rmargin-2; i++)            /* i<rmargin-2 */
+        for(sum = 0, i = lmargin+2; i <= rmargin-2; i++)
         { 
             nova[i].v = stat_gen_uniform(0, PI); 
             nova[i].t = WATER; sum += nova[i].v; 
@@ -54,7 +52,7 @@ printf("\n %d %d \n", lmargin, rmargin);                    /**/
         /* Cria constante de normalização K = Φ/Ω para manter o
          * fluxo desejado constante. */
         K = normalization/sum;
-        for(i = lmargin+2; i <= rmargin-2; i++) nova[i].v *= K;         /* i<rmargin-2 */
+        for(i = lmargin+2; i <= rmargin-2; i++) nova[i].v *= K;
     }
     else /* Temos uma linha base */
     {
