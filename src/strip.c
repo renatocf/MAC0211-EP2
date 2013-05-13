@@ -29,24 +29,24 @@ TStrip tstrip_generate(int size, int maxl, int maxr,
          * A velocidade da água no limite da margem também é 0. */
         for(i = 0; i <= lmargin; i++)
             { printf("%d ", i); nova[i].v = 0; nova[i].t = LAND; }
-        nova[i+1].v = 0; nova[i+1].t = WATER;
+        nova[i].v = 0; nova[i].t = WATER;
         printf("\n");
-        
+
         /* Gera terra na margem direita com velocidade 0.
          * A velocidade da água no limite da margem também é 0. */
         /* for(i = rmargin-1; i < size; i++) */
         for(i = size-1; i >= rmargin; i--)
             { printf("%d ", i); nova[i].v = 0; nova[i].t = LAND; }
-        nova[i-1].v = 0; nova[i-1].t = WATER;
+        nova[i].v = 0; nova[i].t = WATER;
         printf("\n");
-        
+
         /* Gera água entre os limites de ambas as margens (exceto
          * nas casas laterais, em que v = 0). Vai somando os valores
          * (Ω) para posterior normalização. */
         for(sum = 0, i = lmargin+2; i <= rmargin-2; i++)
-        { 
-            nova[i].v = stat_gen_uniform(0, PI); 
-            nova[i].t = WATER; sum += nova[i].v; 
+        {
+            nova[i].v = stat_gen_uniform(0, PI);
+            nova[i].t = WATER; sum += nova[i].v;
         }
 
         /* Cria constante de normalização K = Φ/Ω para manter o
