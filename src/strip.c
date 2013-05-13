@@ -80,10 +80,10 @@ TStrip tstrip_generate(int size, int maxl, int maxr,
             {
                 tam_island = (int) stat_gen_gaussian((maxr - maxl)/2, 1);
                 pos_island =(int) stat_gen_uniform(maxl, maxr - tam_island -1);
-                for(i = pos_island-1; i <= tam_island+1; i++)
+                for(i = pos_island-1; i <= tam_island+pos_island+1; i++)
                 {
                     nova[i].v = 0;
-                    if(i == pos_island-1 || i == tam_island+1)nova[i].t = WATER;
+                    if(i == pos_island-1 || i == tam_island+pos_island+1)nova[i].t = WATER;
                     else nova[i].t = LAND;
                 }
             }
