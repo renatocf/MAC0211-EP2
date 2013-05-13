@@ -12,40 +12,49 @@ void tstrip_seed  (int seed)   { stat_set_seed(seed); }
 void tstrip_island(float prob) { prob_island = prob; }
 void tstrip_free(TStrip strip) { free(strip); }
 
+
 TStrip tstrip_generate(int size, int maxl, int maxr,
                        float normalization, TStrip base)
 {
-    TStrip nova = (TStrip) mallocSafe(size * sizeof(nova));
+    TStrip nova = (TStrip) mallocSafe(size * sizeof(*nova));
     int lmargin, rmargin, i; double sum = 0, K;
 
     if(base == NO_BASE)
     {
         /* Sorteia limites das marges esquerda/direita */
+size = 100;
         lmargin = (int) stat_gen_uniform(0, maxl);
         rmargin = (int) stat_gen_uniform(maxr, size-1);
+printf("\n %d %d \n", lmargin, rmargin);                    /**/
 
         /* Gera terra na margem esquerda com velocidade 0.
          * A velocidade da água no limite da margem também é 0. */
-        for(i = 0; i < lmargin+1; i++)
-            { nova[i].v = 0; nova[i].t = LAND; }
-        nova[i].t = WATER;
-
+        for(i = 0; i <= lmargin; i++)                       /* i<lmargin+1 */
+            { printf("%d ", i); nova[i].v = 0; nova[i].t = LAND; }
+        nova[i+1].v = 0; nova[i+1].t = WATER;               /* nova[i] */
+        printf("\n");
+        
         /* Gera terra na margem direita com velocidade 0.
          * A velocidade da água no limite da margem também é 0. */
-        for(i = rmargin-1; i < size; i++)
-            { nova[i].v = 0; nova[i].t = LAND; }
-        nova[rmargin-1].t = WATER;
-
+        /* for(i = rmargin-1; i < size; i++) */
+        for(i = size-1; i >= rmargin; i--)
+            { printf("%d ", i); nova[i].v = 0; nova[i].t = LAND; }
+        nova[i-1].v = 0; nova[i-1].t = WATER;
+        printf("\n");
+        
         /* Gera água entre os limites de ambas as margens (exceto
          * nas casas laterais, em que v = 0). Vai somando os valores
          * (Ω) para posterior normalização. */
-        for(sum = 0, i = lmargin+2; i < rmargin-2; i++)
-            { nova[i].v = stat_gen_uniform(0, PI); sum += nova[i].v; }
+        for(sum = 0, i = lmargin+2; i <= rmargin-2; i++)            /* i<rmargin-2 */
+        { 
+            nova[i].v = stat_gen_uniform(0, PI); 
+            nova[i].t = WATER; sum += nova[i].v; 
+        }
 
         /* Cria constante de normalização K = Φ/Ω para manter o
          * fluxo desejado constante. */
         K = normalization/sum;
-        for(i = lmargin+2; i < rmargin-2; i++) nova[i].v *= K;
+        for(i = lmargin+2; i <= rmargin-2; i++) nova[i].v *= K;         /* i<rmargin-2 */
     }
     else /* Temos uma linha base */
     {
@@ -55,7 +64,7 @@ TStrip tstrip_generate(int size, int maxl, int maxr,
         maxl = i;
 
         /* Busca pela margem direita */
-        for(i = size; i > 0; i--)
+        for(i = size - 1; i >= 0; i--)                  /* i = size ... i>0 */
             if(base[i].t != base[i-1].t) break;
         maxr = i;
 

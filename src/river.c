@@ -66,8 +66,9 @@ void river_animation_generate(int seed)
         /* Primeira linha, que servirá de base para todo o rio */
         first_line = tstrip_generate(length, maxl, maxr, flux, NO_BASE);
         
-        /* Preenche 'altura' faixs de terreno na lista: */
+        /* Preenche 'altura' faixas de terreno na lista: */
         list_insert(river, first_line);
+        
         for(i = 1, base = first_line; i < height; i++, base = new_line)
         {
             new_line = tstrip_generate(length, maxl, maxr, flux, base);

@@ -106,6 +106,7 @@ int main(int argc, char **argv)
         while(1)
         {
             for(end = init = clock(); end-init < INTERVAL; end = clock());
+            system("clear || cls");
             river_animation_iterate();
         }
         
