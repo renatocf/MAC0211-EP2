@@ -67,15 +67,16 @@ void river_animation_generate(int seed)
         first_line = tstrip_generate(length, maxl, maxr, flux, NO_BASE);
         
         /* Preenche 'altura' faixs de terreno na lista: */
-        list_insert(river, first_line);
+/*        list_insert(river, first_line);
         for(i = 1, base = first_line; i < height; i++, base = new_line)
         {
             new_line = tstrip_generate(length, maxl, maxr, flux, base);
             list_insert(river, new_line);
-        }
+        }*/
         
     /** IMPRIME RIO ***************************************************/
-        list_select(river, strip_print);
+        strip_print(first_line);
+        /* list_select(river, strip_print); */
 }
 
 void river_animation_iterate()
