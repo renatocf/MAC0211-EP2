@@ -2,7 +2,8 @@
 #define H_STATISTICAL_DEFINED
 
 void  stat_set_seed     (int seed);
-float stat_gen_uniform  (int init, int end);
+int stat_gen_uniform  (int init, int end);
 float stat_gen_gaussian (float mean, float stdDev);
+float stat_gen_uniform_float();
 
 #endif

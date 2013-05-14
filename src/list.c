@@ -16,7 +16,7 @@ void list_free(List list)
 {
     while(!list_empty(list))
         list_remove(list, list->head->next);
-    free(list_head(list)); free(list); 
+    free(list_head(list)); free(list);
 }
 
 int list_empty(List list)
@@ -35,7 +35,7 @@ LItem list_remove(List list, Link node)
     if(node->next != NULL)node->next->prev = aux;
     node->prev = NULL;
     node->next = NULL;
-      
+     free(node);
     return item;
 }
 

@@ -4,12 +4,13 @@
 
 void stat_set_seed(int seed){srand(seed);}
 /*Acredito que estaja pronto, parece funcionar*/
-float stat_gen_uniform(int init, int end)
+int stat_gen_uniform(int min, int max)
 {
-    float d;
-    d =  1.0*rand()/RAND_MAX;
-
-    return d*(end-init) + init;
+	int k;
+	double d;
+	d = (double) rand() / ((double) RAND_MAX + 1);
+	k = (int) (d * (max - min + 1));
+	return (min + k);
 }
 
 float stat_gen_gaussian(float mean, float stdDev)
@@ -24,4 +25,13 @@ float stat_gen_gaussian(float mean, float stdDev)
     mul = sqrt(-2.0*log(s)/s);
 
     return mean + stdDev * u * mul;
+}
+
+
+float stat_gen_uniform_float()
+{
+    /*Gera ńúmeros aleatórios de 0 a 1*/
+    float d;
+    d = 1.0*rand()/RAND_MAX;
+    return d;
 }

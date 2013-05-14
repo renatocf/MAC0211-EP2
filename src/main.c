@@ -1,7 +1,7 @@
 /*
 ////////////////////////////////////////////////////////////////////////
 -----------------------------------------------------------------------
-                              BIBLIOTECAS     
+                              BIBLIOTECAS
 -----------------------------------------------------------------------
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 */
@@ -16,7 +16,7 @@
 /*
 ////////////////////////////////////////////////////////////////////////
 -----------------------------------------------------------------------
-                                 MACROS            
+                                 MACROS
 -----------------------------------------------------------------------
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 */
@@ -46,12 +46,12 @@ typedef struct options {
     /* Opções de configuração */
     float f; /* Fluxo */
     int H;   /* Altura do rio */
-    int I;   /* Probabilidade de gerar ilha */
+    float I; /* Probabilidade de gerar ilha */
     int L;   /* Largura do rio */
     int l;   /* Limite esquerdo */
     int r;   /* Limite direito  */
     int s;   /* Semente */
-    
+
     /* Opções booleanas */
     int h;   /* Ajuda */
 } Options;
@@ -84,7 +84,7 @@ int main(int argc, char **argv)
 
         /* Struct com argumentos da linha de comando */
         Options args = { FLUX, HEIGHT, ISLAND, LENGTH, LMAX, RMAX, SEED };
-        
+
     /** ARGUMENTOS ****************************************************/
         func_err = receive_arguments(argc, argv, &args);
         if(func_err) return EXIT_FAILURE;
@@ -94,27 +94,27 @@ int main(int argc, char **argv)
             printf("\n%s\n", help);
             return EXIT_SUCCESS;
         }
-        
+
     /** CONFIGURAÇÕES DO RIO ******************************************/
         river_config_flux    (args.f);
         river_config_size    (args.L, args.H);
         river_config_island  (args.I);
         river_config_margins (args.l, args.r);
-        
+
     /** ANIMAÇÃO DO RIO ***********************************************/
         /* first_line = tstrip_generate(args.L, args.l, args.r, args.f, NO_BASE); */
         river_animation_generate(args.s);
-        
+
         while(1)
         {
             for(end = init = clock(); end-init < INTERVAL; end = clock());
             system("clear || cls");
             river_animation_iterate();
         }
-        
+
     /** LIBERAÇÃO DE MEMÓRIA ******************************************/
         river_animation_finish();
-        
+
    return EXIT_SUCCESS;
 }
 

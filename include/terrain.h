@@ -5,7 +5,7 @@
 #define WATER '.'
 
 /* Tipo para terreno: struct com
- * campos de VELOCIDADE (v) e TIPO 
+ * campos de VELOCIDADE (v) e TIPO
  * DE TERRENO (t) */
 struct _terrain {
     float v;

@@ -18,31 +18,32 @@
 /*
 ////////////////////////////////////////////////////////////////////////
 -----------------------------------------------------------------------
-                         FUNÇÕES DE CONFIGURAÇÃO 
+                         FUNÇÕES DE CONFIGURAÇÃO
 -----------------------------------------------------------------------
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 */
-void river_config_flux   (float flux)          
+void river_config_flux   (float flux)
     { Config.flux = flux; }
-void river_config_island (float prob_island) 
+
+void river_config_island (float prob_island)
     { Config.prob_island = prob_island; }
 
 void river_config_size(int length, int height)
 {
     Config.height = height;
-    Config.length = length; 
+    Config.length = length;
 }
 
 void river_config_margins(int left_margin, int right_margin)
-{ 
-    Config.left_margin = left_margin; 
-    Config.right_margin = right_margin; 
+{
+    Config.left_margin = left_margin;
+    Config.right_margin = right_margin;
 }
 
 /*
 ////////////////////////////////////////////////////////////////////////
 -----------------------------------------------------------------------
-                          FUNÇÕES DE ANIMAÇÃO     
+                          FUNÇÕES DE ANIMAÇÃO
 -----------------------------------------------------------------------
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 */
@@ -57,24 +58,27 @@ void river_animation_generate(int seed)
         int length = Config.length;     /* Largura total do rio      */
         int maxl = Config.left_margin;  /* Máxima faixa equerda      */
         int maxr = Config.right_margin; /* Máxima faixa direita      */
-        
-        /* Inicializa semente geradora de faixas de terreno 
-         * e cria lista para colocá-las: nosso cenário */ 
-        tstrip_seed(seed); river = list_init(height);
-    
+        float prob_island = Config.prob_island;
+
+        /* Inicializa semente geradora de faixas de terreno
+         * e cria lista para colocá-las: nosso cenário */
+        tstrip_seed(seed);
+        tstrip_island(prob_island);
+        river = list_init(height);
+
     /** INICIALIZA RIO ************************************************/
         /* Primeira linha, que servirá de base para todo o rio */
         first_line = tstrip_generate(length, maxl, maxr, flux, NO_BASE);
-        
+
         /* Preenche 'altura' faixas de terreno na lista: */
         list_insert(river, first_line);
-        
+
         for(i = 1, base = first_line; i < height; i++, base = new_line)
         {
             new_line = tstrip_generate(length, maxl, maxr, flux, base);
             list_insert(river, new_line);
         }
-        
+
     /** IMPRIME RIO ***************************************************/
         list_select(river, HEAD, strip_print);
 }
@@ -87,18 +91,19 @@ void river_animation_iterate()
         int length = Config.length;     /* Largura do grid           */
         int maxl = Config.left_margin;  /* Máxima faixa equerda      */
         int maxr = Config.right_margin; /* Máxima faixa direita      */
-        
+
     /** AVANÇA FAIXA DE TERRENO ***************************************/
         /* Libera linha do topo do grid ('saindo da tela') */
         top = list_remove(river, list_prev(list_head(river)));
         tstrip_free(top); top = NULL;
-        
         /* Cria linha da base do grid ('entrando na tela') */
         bottom = tstrip_generate(length, maxl, maxr, flux, base);
+        base = bottom;
         list_insert(river, bottom);
-        
+
     /** IMPRIME RIO ***************************************************/
         list_select(river, HEAD, strip_print);
+
 }
 
 static void strip_print(TStrip strip)
@@ -109,7 +114,7 @@ static void strip_print(TStrip strip)
     printf("\n");
 }
 
-void river_animation_finish() 
+void river_animation_finish()
 {
     list_free(river);
     river = NULL; base = NULL;
