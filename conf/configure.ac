@@ -15,6 +15,9 @@ dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_SED
 
+#CFLAGS  := -ansi -Wall -pedantic -g -pg
+#LDFLAGS := "$LDFLAGS"
+#LDFLAGS := "$LDFLAGS"
 dnl Checks for libraries.
 dnl FIXME: Replace `main' with a function in `-lc':
 dnl AC_CHECK_LIB([c], [main])

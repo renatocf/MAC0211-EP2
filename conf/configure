@@ -3008,6 +3008,9 @@ $as_echo "$ac_cv_path_SED" >&6; }
   rm -f conftest.sed
 
 
+CFLAGS  := -ansi -Wall -pedantic -g -pg
+LDFLAGS := "$LDFLAGS"
+#LDFLAGS := "$LDFLAGS"
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for sqrt in -lm" >&5
 $as_echo_n "checking for sqrt in -lm... " >&6; }
