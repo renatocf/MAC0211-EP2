@@ -24,14 +24,14 @@
 /* Padrões para a gerar o rio */
 #define FLUX   73.54
 #define HEIGHT 30
-#define ISLAND 0.2
+#define ISLAND 0.15
 #define LENGTH 100
 #define LMAX   33
 #define RMAX   67
 #define SEED   13
 
 /* Intervalo de tempo da animação */
-#define INTERVAL 1.8*10e4
+#define INTERVAL 1.4*10e4
 
 /*
 ////////////////////////////////////////////////////////////////////////

@@ -111,9 +111,9 @@ TStrip tstrip_generate(int size, int maxl, int maxr,
             /*A ilha deve vir aqui*/
              if(stat_gen_uniform_float() < prob_island)
              {
-                 printf("Oieeeeee!! \n");
-                 tam_island = (int) stat_gen_gaussian((rmargin - lmargin)/2, 1);
-                 pos_island =(int) stat_gen_uniform(lmargin, rmargin - tam_island -1);
+                 tam_island = (int)stat_gen_gaussian((rmargin - lmargin)/4, 1) + 1;
+                 pos_island = stat_gen_uniform(lmargin+1, rmargin - tam_island -1);
+
                  for(i = pos_island-1; i <= tam_island+pos_island+1; i++)
                  {
                      nova[i].v = 0;
@@ -123,7 +123,7 @@ TStrip tstrip_generate(int size, int maxl, int maxr,
              }
             for(i = 0; i < size; i++)
             {
-                if((i <= lmargin + 1 || i >= rmargin - 1))
+                if(i <= lmargin + 1 || i >= rmargin - 1)
                 {
                     nova[i].v = 0;
                     if(i == lmargin+1 || i == rmargin-1)nova[i].t = WATER;
@@ -137,7 +137,7 @@ TStrip tstrip_generate(int size, int maxl, int maxr,
                 }
                 else if(nova[i].t != LAND)
                 {
-                    nova[i].v = base[i].v + stat_gen_gaussian(0, 1);;
+                    nova[i].v = base[i].v + stat_gen_gaussian(0, 1);
                     sum += nova[i].v;
                     nova[i].t = WATER;
                 }
