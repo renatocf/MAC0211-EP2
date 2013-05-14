@@ -31,7 +31,7 @@
 #define SEED   13
 
 /* Intervalo de tempo da animação */
-#define INTERVAL 100
+#define INTERVAL 1.8*10e4
 
 /*
 ////////////////////////////////////////////////////////////////////////
@@ -105,11 +105,12 @@ int main(int argc, char **argv)
         /* first_line = tstrip_generate(args.L, args.l, args.r, args.f, NO_BASE); */
         river_animation_generate(args.s);
         
-        /* while(1) */
-        /* { */
-            /* for(end = init = clock(); end-init < INTERVAL; end = clock()); */
-            /* river_animation_iterate(); */
-        /* } */
+        while(1)
+        {
+            for(end = init = clock(); end-init < INTERVAL; end = clock());
+            system("clear || cls");
+            river_animation_iterate();
+        }
         
     /** LIBERAÇÃO DE MEMÓRIA ******************************************/
         river_animation_finish();
