@@ -16,7 +16,8 @@ void list_free(List list)
 {
     while(!list_empty(list))
         list_remove(list, list->head->next);
-    free(list_head(list)); free(list);
+    free(list_head(list));
+    free(list);
 }
 
 int list_empty(List list)
@@ -35,7 +36,7 @@ LItem list_remove(List list, Link node)
     if(node->next != NULL)node->next->prev = aux;
     node->prev = NULL;
     node->next = NULL;
-     free(node);
+    free(node);
     return item;
 }
 
@@ -43,14 +44,28 @@ void list_insert(List list, LItem item)
 {
     Link new = (Link) mallocSafe(sizeof(*new));
     new->item = item;
-    new->next = list->head->next; new->prev = list->head;
-    new->next->prev = new; new->prev->next = new;
+    new->next = list->head->next;
+    new->prev = list->head;
+    new->next->prev = new;
+    new->prev->next = new;
 }
 
-Link  list_head(List list) { return list->head; }
-Link  list_next(Link node) { return node->next; }
-Link  list_prev(Link node) { return node->prev; }
-LItem list_item(Link node) { return node->item; }
+Link  list_head(List list)
+{
+    return list->head;
+}
+Link  list_next(Link node)
+{
+    return node->next;
+}
+Link  list_prev(Link node)
+{
+    return node->prev;
+}
+LItem list_item(Link node)
+{
+    return node->item;
+}
 
 void list_select(List list, int direction, void (*visit) (LItem))
 {

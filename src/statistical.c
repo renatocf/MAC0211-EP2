@@ -27,10 +27,9 @@ float stat_gen_gaussian(float mean, float stdDev)
     return mean + stdDev * u * mul;
 }
 
-
+/*Gera ńúmeros aleatórios de 0 a 1*/
 float stat_gen_uniform_float()
 {
-    /*Gera ńúmeros aleatórios de 0 a 1*/
     float d;
     d = 1.0*rand()/RAND_MAX;
     return d;
