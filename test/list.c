@@ -35,15 +35,15 @@ int main()
     lista_vazia(lista);
     printf("Processando...\n");
     list_insert(lista, terra);
-    list_select(lista, imprime);
+    list_select(lista, HEAD, imprime);
     lista_vazia(lista);
 
     printf("\n------------------\n");
     printf("Removendo terra:\n");
     lista_vazia(lista);
     printf("Processando...\n");
-    list_remove(lista, list_head(lista));
-    list_select(lista, imprime);
+    list_remove(lista, list_next(list_head(lista)));
+    list_select(lista, HEAD, imprime);
     lista_vazia(lista);
 
     printf("\n------------------\n");
@@ -52,16 +52,16 @@ int main()
     printf("Processando...\n");
     list_insert(lista, terra);
     list_insert(lista, agua);
-    list_select(lista, imprime);
+    list_select(lista, HEAD, imprime);
     lista_vazia(lista);
     
     printf("\n------------------\n");
     printf("Removendo 2 elementos:\n");
     lista_vazia(lista);
     printf("Processando...\n");
-    list_remove(lista, list_head(lista));
-    list_remove(lista, list_head(lista));
-    list_select(lista, imprime);
+    list_remove(lista, list_next(list_head(lista)));
+    list_remove(lista, list_next(list_head(lista)));
+    list_select(lista, HEAD, imprime);
     lista_vazia(lista);
     
     printf("\n------------------\n");
@@ -71,7 +71,7 @@ int main()
     list_insert(lista, terra);
     list_insert(lista, agua);
     lista_vazia(lista);
-    list_select(lista, imprime);
+    list_select(lista, HEAD, imprime);
     printf("Processando...\n");
     list_free(lista);
     

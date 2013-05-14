@@ -76,7 +76,7 @@ void river_animation_generate(int seed)
         }
         
     /** IMPRIME RIO ***************************************************/
-        list_select(river, strip_print);
+        list_select(river, HEAD, strip_print);
 }
 
 void river_animation_iterate()
@@ -90,7 +90,7 @@ void river_animation_iterate()
         
     /** AVANÇA FAIXA DE TERRENO ***************************************/
         /* Libera linha do topo do grid ('saindo da tela') */
-        top = list_remove(river, list_head(river));
+        top = list_remove(river, list_prev(list_head(river)));
         tstrip_free(top); top = NULL;
         
         /* Cria linha da base do grid ('entrando na tela') */
@@ -98,7 +98,7 @@ void river_animation_iterate()
         list_insert(river, bottom);
         
     /** IMPRIME RIO ***************************************************/
-        list_select(river, strip_print);
+        list_select(river, HEAD, strip_print);
 }
 
 static void strip_print(TStrip strip)

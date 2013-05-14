@@ -1,8 +1,8 @@
 # PROGRAMS #############################################################
 AR := ar
-CC := gcc
+CC := @CC@
 RM := rm -f
-SED := sed
+SED := @SED@
 CAT := cat
 MKDIR := mkdir -p
 RMDIR := rmdir --ignore-fail-on-non-empty
@@ -10,11 +10,11 @@ RMDIR := rmdir --ignore-fail-on-non-empty
 # DIRECTORIES ##########################################################
 SRCDIR := src
 OBJDIR := obj
-BINDIR := bin
+BINDIR := @bindir@
 LIBDIR := lib
 CONFDIR := conf
 TESTDIR := test
-VPATH = $(SRCDIR):$(LIBDIR):$(BINDIR):$(TESTDIR)
+VPATH = $(SRCDIR):$(LIBDIR):$(BINDIR):$(TESTDIR) 
 
 # SOURCE ###############################################################
 BIN := ep2

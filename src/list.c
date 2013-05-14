@@ -8,13 +8,14 @@ List list_init(int N)
     List new = (List) mallocSafe(sizeof(*new));
     new->head = (Link) mallocSafe(sizeof(*new->head));
     new->head->next = new->head;
+    new->head->prev = new->head;
     return new;
 }
 
 void list_free(List list)
 {
     while(!list_empty(list))
-        list_remove(list, list->head);
+        list_remove(list, list->head->next);
     free(list_head(list)); free(list); 
 }
 
@@ -27,43 +28,37 @@ int list_empty(List list)
 
 LItem list_remove(List list, Link node)
 {
-    if(list_next(node) != list_head(list) && list_head(list)->next!= list_head(list))
-    {
-        LItem item = node->next->item;
-        Link dead = node->next;
-
-        node->next = dead->next;
-        free(dead); dead = NULL;
-        return item;
-    }
-    else if(list_head(list) != list_head(list))
-    {
-        LItem item = node->next->next->item;
-        Link dead = node->next->next;
-
-        node->next->next = dead->next;
-        free(dead); dead = NULL;
-        return item;
-    }
-
-    return NULL;
+    Link aux;
+    LItem item = node->item;
+    aux = node->prev;
+    aux->next = node->next;
+    if(node->next != NULL)node->next->prev = aux;
+    node->prev = NULL;
+    node->next = NULL;
+      
+    return item;
 }
 
 void list_insert(List list, LItem item)
 {
     Link new = (Link) mallocSafe(sizeof(*new));
-    list->head->item = item; 
-    new->next = list->head->next; list->head->next = new;
-    list->head = new;
+    new->item = item;
+    new->next = list->head->next; new->prev = list->head;
+    new->next->prev = new; new->prev->next = new;
 }
 
 Link  list_head(List list) { return list->head; }
 Link  list_next(Link node) { return node->next; }
+Link  list_prev(Link node) { return node->prev; }
 LItem list_item(Link node) { return node->item; }
 
-void list_select(List list, void (*visit) (LItem))
+void list_select(List list, int direction, void (*visit) (LItem))
 {
     Link aux;
-    for(aux = list->head->next; aux != list->head; aux = aux->next)
-        visit(aux->item);
+    if(direction == HEAD)
+        for(aux = list->head->next; aux != list->head; aux = aux->next)
+            visit(aux->item);
+    else
+        for(aux = list->head->prev; aux != list->head; aux = aux->prev)
+            visit(aux->item);
 }

@@ -2,7 +2,7 @@
 AR := ar
 CC := gcc
 RM := rm -f
-SED := sed
+SED := /bin/sed
 CAT := cat
 MKDIR := mkdir -p
 RMDIR := rmdir --ignore-fail-on-non-empty
@@ -10,7 +10,7 @@ RMDIR := rmdir --ignore-fail-on-non-empty
 # DIRECTORIES ##########################################################
 SRCDIR := src
 OBJDIR := obj
-BINDIR := bin
+BINDIR := ${exec_prefix}/bin
 LIBDIR := lib
 CONFDIR := conf
 TESTDIR := test

@@ -14,6 +14,7 @@ struct list {
 struct lnode {
     LItem item;
     Link  next;
+    Link  prev;
 };
 
 #endif
