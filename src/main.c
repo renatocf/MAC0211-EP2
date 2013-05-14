@@ -10,6 +10,7 @@
 #include <stdlib.h>
 
 #include "river.h"
+#include "strip.h"
 #include "getopt.h"
 
 /*
@@ -25,8 +26,8 @@
 #define HEIGHT 30
 #define ISLAND 0.2
 #define LENGTH 100
-#define LMAX   10
-#define RMAX   10
+#define LMAX   33
+#define RMAX   67
 #define SEED   13
 
 /* Intervalo de tempo da animação */
@@ -101,6 +102,7 @@ int main(int argc, char **argv)
         river_config_margins (args.l, args.r);
         
     /** ANIMAÇÃO DO RIO ***********************************************/
+        /* first_line = tstrip_generate(args.L, args.l, args.r, args.f, NO_BASE); */
         river_animation_generate(args.s);
         
         while(1)
