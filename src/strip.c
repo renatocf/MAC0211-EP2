@@ -94,16 +94,18 @@ TStrip tstrip_generate(int size, int maxl, int maxr,
              tam_island = 0;
              pos_island = 0;
 
-            if(lmargin+1 < maxl && lmargin>1)
+            if(0 == maxl);
+            else if(lmargin< maxl && lmargin>0)
                 lmargin += stat_gen_uniform(-1, 1);
-            else if(lmargin==1)
+            else if(lmargin==0)
                 lmargin += stat_gen_uniform(0, 1);
             else
                 lmargin += stat_gen_uniform(-1, 0);
 
-            if(rmargin-1>maxr && rmargin < size-2)
+            if(size-1 == maxr);
+            else if(rmargin>maxr && rmargin < size-1)
                 rmargin += stat_gen_uniform(-1, 1);
-            else if(rmargin == size - 2)
+            else if(rmargin == size - 1)
                 rmargin += stat_gen_uniform(-1, 0);
             else
                 rmargin += stat_gen_uniform(0, 1);
@@ -148,8 +150,11 @@ TStrip tstrip_generate(int size, int maxl, int maxr,
 
         K = normalization/sum;
         for(i = lmargin; i < rmargin; i++) nova[i].v *= K;
-    }
 
+
+    }
+    for(i=0, sum=0; i<size;i++)sum += nova[i].v;
+printf("FLUXO: %f\n", sum);
     return nova;
 }
 

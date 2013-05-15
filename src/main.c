@@ -26,12 +26,12 @@
 #define HEIGHT 30
 #define ISLAND 0.15
 #define LENGTH 100
-#define LMAX   33
-#define RMAX   67
+#define LMAX   50
+#define RMAX   50
 #define SEED   13
 
 /* Intervalo de tempo da animação */
-#define INTERVAL 1.4*10e4
+#define INTERVAL 1.4*10e2
 
 /*
 ////////////////////////////////////////////////////////////////////////
@@ -144,9 +144,9 @@ int receive_arguments(int argc, char **argv, Options *args)
             case 'L':
                 args->L = atoi(optarg); break;
             case 'l':
-                args->r = atoi(optarg); break;
+                args->l = atoi(optarg); break;
             case 'r':
-                args->s = atoi(optarg); break;
+                args->r = atoi(optarg); break;
             case 's':
                 args->s = atoi(optarg); break;
             case 'h':
