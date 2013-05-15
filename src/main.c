@@ -31,7 +31,7 @@
 #define SEED   13
 
 /* Intervalo de tempo da animação */
-#define INTERVAL 1.4*10e2
+#define INTERVAL 1.4*10e4
 
 /*
 ////////////////////////////////////////////////////////////////////////

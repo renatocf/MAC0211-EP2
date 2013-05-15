@@ -65,7 +65,7 @@ void river_animation_generate(int seed)
         tstrip_seed(seed);
         tstrip_island(prob_island);
         river = list_init(height);
-
+#.#.
     /** INICIALIZA RIO ************************************************/
         /* Primeira linha, que servirá de base para todo o rio */
         first_line = tstrip_generate(length, maxl, maxr, flux, NO_BASE);
