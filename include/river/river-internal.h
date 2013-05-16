@@ -4,17 +4,17 @@
 typedef struct conf Conf;
 struct conf
 {
-    int   length;
-    int   height;
-    int   left_margin;
-    int   right_margin;
-    float prob_island;
     float flux;
+    int   height;
+    int   length;
+    int   zone;
+    float prob_island;
+    int   freq_island;
 };
 
-static Conf Config;
 static List river;
 static TStrip base;
+static Conf Config;
 
 /* Função auxiliar para imprimir
  * a faixa de terra */
