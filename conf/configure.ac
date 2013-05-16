@@ -1,39 +1,30 @@
 dnl                                               -*- Autoconf -*-
-dnl Process this file with autoconf to produce a configure script.
+dnl Processe com o autoconf para produzir o script de configuração  
 
+dnl Versão requerida pelo autoconf
 AC_PREREQ([2.69])
-AC_INIT(main.c, 0.0.1, [BUG-REPORT-ADDRESS])
+AC_INIT(Game, 1.0, renatocordeiroferreira@gmail.com)
+: ${CFLAGS="-Iinclude"}
 
 dnl Nosso projeto é escrito em C
 AC_LANG(C)
 
 dnl Diretório para os arquivos-fonte
 AC_CONFIG_SRCDIR([src])
-dnl AC_CONFIG_HEADERS([include/*.h])
 
-dnl Checks for programs.
+dnl Checando por programas
+
 AC_PROG_CC
 AC_PROG_SED
 
-#CFLAGS  := -ansi -Wall -pedantic -g -pg
-#LDFLAGS := "$LDFLAGS"
-#LDFLAGS := "$LDFLAGS"
-dnl Checks for libraries.
-dnl FIXME: Replace `main' with a function in `-lc':
-dnl AC_CHECK_LIB([c], [main])
-dnl FIXME: Replace `main' with a function in `-lm':
+dnl Checa por bibliotecas
 AC_CHECK_LIB([m], sqrt)
-AC_CHECK_LIB([lib/stat],[stat_set_seed])
 
 dnl Procura pela ferramenta 'make'
 AC_PROG_MAKE_SET
 
-dnl Checks for header files.
+dnl Checa pela presença dos headers C padrão
 AC_HEADER_STDC
-AC_CHECK_HEADERS([include/*.h])
-
-dnl Checks for typedefs, structures, and compiler characteristics.
-AC_TYPE_SIZE_T
 
 dnl Checks for library functions.
 AC_FUNC_MALLOC
