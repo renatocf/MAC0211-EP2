@@ -54,20 +54,19 @@ void river_config_margins(int zone)
 void river_animation_generate(int seed)
 {
     /** VARIÁVEIS *****************************************************/
-    int i = 0;                              /* Contador                    */
-    TStrip new_line;                        /* Linha gerada                */
-    TStrip first_line;                      /* 1ª linha gedara             */
-    float flux = Config.flux;               /* Fluxo total do rio          */
-    int height = Config.height;             /* Altura total do grid        */
-    int length = Config.length;             /* Largura total do rio        */
-    int zone = Config.zone;                 /* Zona de conforto            */
-    float prob_island = Config.prob_island; /* Probabilidade de haver ilha */
-    int freq_island = Config.freq_island;   /* Distancia entre as ilhas    */
+    int i = 0;                       /* Contador                     */
+    TStrip new_line;                 /* Linha gerada                 */
+    TStrip first_line;               /* 1ª linha gedara              */
+    int zone = Config.zone;          /* 'Zona de conforto'           */
+    float flux = Config.flux;        /* Fluxo total do rio           */
+    int height = Config.height;      /* Altura total do grid         */
+    int length = Config.length;      /* Largura total do rio         */
+    int freq = Config.freq_island;   /* Distancia entre as ilhas     */
+    float prob = Config.prob_island; /* Probabilidade de haver ilha  */
 
     /* Inicializa semente geradora de faixas de terreno
      * e cria lista para colocá-las: nosso cenário */
-    tstrip_seed(seed);
-    tstrip_island(prob_island, freq_island);
+    tstrip_seed(seed); tstrip_island(prob, freq);
     river = list_init(height);
 
     /** INICIALIZA RIO ************************************************/
@@ -111,7 +110,7 @@ void river_animation_iterate()
 
 }
 
-static void strip_print(TStrip strip)
+void strip_print(TStrip strip)
 {
     int i = 0; /* Contador */
     for(i = 0; i < Config.length; i++)

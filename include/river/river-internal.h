@@ -12,12 +12,12 @@ struct conf
     int   freq_island;
 };
 
-static List river;
-static TStrip base;
-static Conf Config;
+List river;
+TStrip base;
+Conf Config;
 
 /* Função auxiliar para imprimir
  * a faixa de terra */
-static void strip_print (TStrip);
+void strip_print (TStrip);
 
 #endif
