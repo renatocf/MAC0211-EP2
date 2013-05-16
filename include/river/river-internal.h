@@ -4,13 +4,12 @@
 typedef struct conf Conf;
 struct conf
 {
-    int   length;
-    int   height;
-    int   left_margin;
-    int   right_margin;
-    int   freq_island;
-    float prob_island;
     float flux;
+    int   height;
+    int   length;
+    int   zone;
+    float prob_island;
+    int   freq_island;
 };
 
 static List river;

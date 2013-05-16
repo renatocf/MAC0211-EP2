@@ -24,15 +24,14 @@
 /* Padrões para a gerar o rio */
 #define FLUX   73.54
 #define HEIGHT 30
-#define ISLAND 0.4
 #define LENGTH 100
-#define LMAX   40
-#define RMAX   80
+#define ZONE   10
+#define ISLAND 0.4
 #define SEED   13
 #define FREQ   5
 
 /* Intervalo de tempo da animação */
-#define INTERVAL 1.4*10e3
+#define INTERVAL 1.4*10e1
 
 /*
 ////////////////////////////////////////////////////////////////////////
@@ -48,10 +47,9 @@ typedef struct options
     /* Opções de configuração */
     float F; /* Fluxo */
     int H;   /* Altura do rio */
-    float i; /* Probabilidade de gerar ilha */
     int L;   /* Largura do rio */
-    int l;   /* Limite esquerdo */
-    int r;   /* Limite direito  */
+    int Z;   /* Distancia de segurança entre as margens */
+    float i; /* Probabilidade de gerar ilha */
     int s;   /* Semente */
     int f;   /* Frequencia com que as ilhas aparecem(em numero de linhas) */
 
@@ -86,7 +84,7 @@ int main(int argc, char **argv)
     clock_t init, end;
 
     /* Struct com argumentos da linha de comando */
-    Options args = { FLUX, HEIGHT, ISLAND, LENGTH, LMAX, RMAX, SEED, FREQ };
+    Options args = { FLUX, HEIGHT, LENGTH, ZONE, ISLAND, SEED, FREQ };
 
     /** ARGUMENTOS ****************************************************/
     func_err = receive_arguments(argc, argv, &args);
@@ -102,10 +100,9 @@ int main(int argc, char **argv)
     river_config_flux    (args.F);
     river_config_size    (args.L, args.H);
     river_config_island  (args.i, args.f);
-    river_config_margins (args.l, args.r);
+    river_config_margins (args.Z);
 
     /** ANIMAÇÃO DO RIO ***********************************************/
-    /* first_line = tstrip_generate(args.L, args.l, args.r, args.f, NO_BASE); */
     river_animation_generate(args.s);
 
     while(1)
@@ -133,8 +130,8 @@ int receive_arguments(int argc, char **argv, Options *args)
 /* Recebe os argumentos da linha de comando e os
  * armazena na struct correspondente */
 {
-    char opt; /* int i = 0; */
-    while((opt = getopt(argc, argv, "F:H:i:L:l:r:s:f:h")) != NONE)
+    char opt;
+    while((opt = getopt(argc, argv, "F:H:L:Z:i:s:f:h")) != NONE)
     {
         switch(opt)
         {
@@ -144,23 +141,21 @@ int receive_arguments(int argc, char **argv, Options *args)
         case 'H':
             args->H = atoi(optarg);
             break;
-        case 'i':
-            args->i = atof(optarg);
-            break;
         case 'L':
             args->L = atoi(optarg);
             break;
-        case 'l':
-            args->l = atoi(optarg);
+        case 'Z':
+            args->Z = atoi(optarg);
             break;
-        case 'r':
-            args->r = atoi(optarg);
+        case 'i':
+            args->i = atof(optarg);
             break;
         case 's':
             args->s = atoi(optarg);
             break;
         case 'f':
             args->f = atoi(optarg);
+            break;
         case 'h':
             args->h = 1;
             break;

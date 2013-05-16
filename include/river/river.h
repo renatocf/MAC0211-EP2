@@ -5,7 +5,7 @@
 void river_config_flux        (float);
 void river_config_size        (int, int);   /* largura/altura */
 void river_config_island      (float, int); /* probabilidade/frequência da ilha */
-void river_config_margins     (int, int);   /* esquerda/direita */
+void river_config_margins     (int);   /* zona de conforto */
 
 /* Funções para controle de animação */
 void river_animation_generate (int);        /* semente */
