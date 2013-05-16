@@ -33,9 +33,8 @@ LItem list_remove(List list, Link node)
     LItem item = node->item;
     aux = node->prev;
     aux->next = node->next;
-    if(node->next != NULL)node->next->prev = aux;
-    node->prev = NULL;
-    node->next = NULL;
+    if(node->next != NULL) node->next->prev = aux;
+
     free(node);
     return item;
 }

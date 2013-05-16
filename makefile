@@ -31,12 +31,12 @@ OBJ := $(addprefix $(OBJDIR)/,$(OBJ))         # Adiciona diretório
 
 # COMPILER #############################################################
 CLIBS  := $(patsubst %,-I%,$(shell find include -type d))
-CFLAGS := -ansi -Wall -pedantic -g -pg
+CFLAGS := -ansi -Wall -pedantic -g
 
 # LINKER ###############################################################
 LDLIBS  := -L$(LIBDIR)
 LDFLAGS := -Wl,-rpath,$(LIBDIR)
-LDFLAGS += -lm -lc -pg
+LDFLAGS += -lm
 LDFLAGS += $(filter -l%,$(patsubst lib%.a,-l%,$(LIBS))) \
  		   $(filter -l%,$(patsubst lib%.so,-l%,$(LIBS)))
 
