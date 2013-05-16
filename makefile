@@ -4,6 +4,7 @@ CC := gcc
 RM := rm -f
 SED := sed
 CAT := cat
+MAKE += --no-print-directory
 MKDIR := mkdir -p
 RMDIR := rmdir --ignore-fail-on-non-empty
 
@@ -12,6 +13,7 @@ SRCDIR := src
 OBJDIR := obj
 BINDIR := bin
 LIBDIR := lib
+DOCDIR := doc
 CONFDIR := conf
 TESTDIR := test
 VPATH = $(SRCDIR):$(LIBDIR):$(BINDIR):$(TESTDIR)
@@ -40,14 +42,19 @@ LDFLAGS += $(filter -l%,$(patsubst lib%.a,-l%,$(LIBS))) \
 
 
 .PHONY: all
-all: $(DEP) $(BIN)
+all: $(DEP) $(BIN) $(DOC)
 -include $(DEP)
+
+.PHONY: doc
+doc:
+	$(MAKE) -C $(DOCDIR)
 
 .PHONY: clean
 clean:
 	$(RM) $(OBJDIR)/*.o $(LIBDIR)/*.a $(LIBDIR)/*.so \
       $(CONFDIR)/dependencies.mk *~ gmon.out
 	$(RMDIR) $(OBJDIR)
+	@$(MAKE) clean -C $(DOCDIR)
 
 
 # GAME #################################################################
