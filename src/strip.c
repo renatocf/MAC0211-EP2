@@ -103,18 +103,18 @@ TStrip tstrip_generate(int size, int maxl, int maxr,
                 rmargin += stat_gen_uniform(0, 1);
 
             /* A ilha vem aqui */
-             if(stat_gen_uniform_float() < prob_island)
-             {
-                 tam_island = (int)stat_gen_gaussian((rmargin - lmargin)/4, 1) + 1;
-                 pos_island = stat_gen_uniform(lmargin+1, rmargin - tam_island -1);
+            if(stat_gen_uniform_float() < prob_island)
+            {
+                tam_island = stat_gen_uniform(1, (rmargin - lmargin)/2.0);
+                pos_island = stat_gen_uniform(lmargin+1, rmargin - tam_island -1);
 
-                 for(i = pos_island-1; i <= pos_island+tam_island+1; i++)
-                 {
-                     nova[i].v = 0;
-                     if(i == pos_island-1 || i == tam_island+pos_island+1)nova[i].t = WATER;
-                     else nova[i].t = LAND;
-                 }
-             }
+                for(i = pos_island-1; i <= pos_island+tam_island+1; i++)
+                {
+                    nova[i].v = 0;
+                    if(i == pos_island-1 || i == tam_island+pos_island+1)nova[i].t = WATER;
+                    else nova[i].t = LAND;
+                }
+            }
             for(i = 0; i < size; i++)
             {
                 if(i <= lmargin + 1 || i >= rmargin - 1)
@@ -142,12 +142,8 @@ TStrip tstrip_generate(int size, int maxl, int maxr,
         if(sum != 0) K = normalization/sum;
         else K = 0;
         for(i = lmargin; i <= rmargin; i++) (nova[i].v) *= K;
-
-
-
     }
-    for(i=0, sum=0; i<size;i++){sum += nova[i].v;printf("%f\n",nova[i].v);}
-printf("FLUXO: %f\n", sum);
+
     return nova;
 }
 

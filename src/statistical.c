@@ -2,15 +2,18 @@
 #include <math.h>
 #include "statistical.h"
 
-void stat_set_seed(int seed){srand(seed);}
+void stat_set_seed(int seed)
+{
+    srand(seed);
+}
 /*Acredito que estaja pronto, parece funcionar*/
 int stat_gen_uniform(int min, int max)
 {
-	int k;
-	double d;
-	d = (double) rand() / ((double) RAND_MAX + 1);
-	k = (int) (d * (max - min + 1));
-	return (min + k);
+    int k;
+    double d;
+    d = (double) rand() / ((double) RAND_MAX + 1);
+    k = (int) (d * (max - min + 1));
+    return (min + k);
 }
 
 float stat_gen_gaussian(float mean, float stdDev)
@@ -18,10 +21,11 @@ float stat_gen_gaussian(float mean, float stdDev)
     float u, v, s, mul;
     do
     {
-    u = 2.0*rand()/RAND_MAX - 1;
-    v = 2.0*rand()/RAND_MAX - 1;
-    s = u * u + v * v;
-    } while (s >= 1 || s == 0);
+        u = 2.0*rand()/RAND_MAX - 1;
+        v = 2.0*rand()/RAND_MAX - 1;
+        s = u * u + v * v;
+    }
+    while (s >= 1 || s == 0);
     mul = sqrt(-2.0*log(s)/s);
 
     return mean + stdDev * u * mul;
