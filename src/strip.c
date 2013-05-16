@@ -7,14 +7,17 @@
 #include "terrain.h"
 #include "statistical.h"
 
-float prob_island = 0.1; /* Probabilidade de haver uma ilha na linha */
+float prob_island; /* Probabilidade de haver uma ilha na linha */
+int freq_island;
+int j = 0;
 
 void tstrip_seed  (int seed)
 {
     stat_set_seed(seed);
 }
-void tstrip_island(float prob)
+void tstrip_island(float prob, int freq)
 {
+    freq_island = freq;
     prob_island = prob;
 }
 void tstrip_free(TStrip strip)
@@ -103,18 +106,26 @@ TStrip tstrip_generate(int size, int maxl, int maxr,
                 rmargin += stat_gen_uniform(0, 1);
 
             /* A ilha vem aqui */
-            if(stat_gen_uniform_float() < prob_island)
+            if(j != freq_island)j++;
+            else
             {
-                tam_island = stat_gen_uniform(1, (rmargin - lmargin)/2.0);
-                pos_island = stat_gen_uniform(lmargin+1, rmargin - tam_island -1);
-
-                for(i = pos_island-1; i <= pos_island+tam_island+1; i++)
+                j = 0;
+                if(stat_gen_uniform_float() < prob_island)
                 {
-                    nova[i].v = 0;
-                    if(i == pos_island-1 || i == tam_island+pos_island+1)nova[i].t = WATER;
-                    else nova[i].t = LAND;
+                    j = 0;
+                    tam_island = stat_gen_uniform(1, (rmargin - lmargin)/2.0);
+                    pos_island = stat_gen_uniform(lmargin+1, rmargin - tam_island -1);
+
+                    for(i = pos_island-1; i <= pos_island+tam_island+1; i++)
+                    {
+                        nova[i].v = 0;
+                        if(i == pos_island-1 || i == tam_island+pos_island+1)nova[i].t = WATER;
+                        else nova[i].t = LAND;
+                    }
+
                 }
             }
+
             for(i = 0; i < size; i++)
             {
                 if(i <= lmargin + 1 || i >= rmargin - 1)

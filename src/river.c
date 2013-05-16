@@ -27,9 +27,10 @@ void river_config_flux   (float flux)
     Config.flux = flux;
 }
 
-void river_config_island (float prob_island)
+void river_config_island (float prob_island, int freq_island)
 {
     Config.prob_island = prob_island;
+    Config.freq_island = freq_island;
 }
 
 void river_config_size(int length, int height)
@@ -63,11 +64,12 @@ void river_animation_generate(int seed)
     int maxl = Config.left_margin;  /* Máxima faixa equerda      */
     int maxr = Config.right_margin; /* Máxima faixa direita      */
     float prob_island = Config.prob_island;
+    int freq_island = Config.freq_island;
 
     /* Inicializa semente geradora de faixas de terreno
      * e cria lista para colocá-las: nosso cenário */
     tstrip_seed(seed);
-    tstrip_island(prob_island);
+    tstrip_island(prob_island, freq_island);
     river = list_init(height);
 
     /** INICIALIZA RIO ************************************************/
