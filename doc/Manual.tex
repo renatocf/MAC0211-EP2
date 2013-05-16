@@ -1,0 +1,75 @@
+%\documentclass[twoside]{article}
+\documentclass[a4paper,12pt]{article}
+
+% --------------------------------------------------------------------------- %
+\usepackage[utf8]{inputenc}             % Encodamento utf-8
+\usepackage[brazil]{babel}              % Parcote para texto em português
+
+\usepackage{setspace}                   % Espaçamento flexível
+\usepackage{indentfirst}                % Indentação do primeiro parágrafo
+\usepackage[fixlanguage]{babelbib}      % Opções extras para linguagem
+
+\usepackage[usenames,svgnames,dvipsnames]{xcolor}
+\usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
+\usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry}
+
+\usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=DarkGreen,linkcolor=NavyBlue,urlcolor=DarkRed,filecolor=green,bookmarksopen=true]{hyperref} 				% links coloridos
+\usepackage[all]{hypcap}                % soluciona o problema com o hyperref 
+					% e capitulos
+
+\newpage %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagenumbering{arabic}     % começamos a numerar 
+\begin{document}
+ 
+\begin{center} 
+	{\LARGE Manual de usuário - Jogo das Canoas}
+\end{center}
+
+
+
+\bigskip
+\bigskip
+
+
+O Jogo das Canoas consiste, nessa fase inicial, em gerar um rio com características atribuídas pelo próprio usuário, sendo essas características frequencia e tamanho de ilhas e velocidade, largura, altura e tamanho máximo das margens do rio.
+Sendo como se este pudesse alterar a dificuldade do jogo.
+
+ 
+ \newpage
+\begin{center}
+{\Large Compilação do jogo:}
+\end{center}
+
+Para compilar o jogo, entre na pasta onde o seu jogo e utilize o seguinte comando no terminal:
+
+\$: make
+
+\begin{center}
+{\Large Execução do jogo:}
+\end{center}
+
+\begin{center}
+ {\Large Características adicionais:}
+\end{center}
+
+{\large O usuário poderá modificar as seguintes características via linha de comando:}
+
+\bigskip
+\begin{itemize}
+\item Fluxo do rio . . . . . . . . . . . . . .  -f
+\item Altura do rio. . . . . . . . . . . . . .  -H 
+\item Largura do rio . . . . . . . . . . . . .  -L
+\item Velocidade do rio. . . . . . . . . . . .  -v	
+\item Tamanho das ilhas. . . . . . . . . . . .  -
+\item Frequência das ilhas . . . . . . . . . .  -I
+\item Posição mínima da margem direita . . . .  -r 
+\item Posição máxima da margem esquerda. . . .  -l
+\item Semente geradora de aleatoriedade. . . .  -s
+\end{itemize}
+
+\bigskip
+
+Observação: Existe uma opção adicional -h, caso você precise de AJUDA.
+ 
+
+\end{document}
