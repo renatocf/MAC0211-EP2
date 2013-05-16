@@ -153,7 +153,6 @@ TStrip tstrip_generate(int size, int zone,
         else K = 0;
         for(i = lmargin; i <= rmargin; i++) (nova[i].v) *= K;
     }
-
     return nova;
 }
 

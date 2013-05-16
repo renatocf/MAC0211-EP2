@@ -96,14 +96,15 @@ void river_animation_iterate()
     int zone = Config.zone;         /* Zona de conforto          */
 
     /** AVANÇA FAIXA DE TERRENO ***************************************/
-    /* Libera linha do topo do grid ('saindo da tela') */
-    top = list_remove(river, list_prev(list_head(river)));
-    tstrip_free(top);
-    top = NULL;
     /* Cria linha da base do grid ('entrando na tela') */
     bottom = tstrip_generate(length, zone, flux, base);
     base = bottom;
     list_insert(river, bottom);
+
+    /* Libera linha do topo do grid ('saindo da tela') */
+    top = list_remove(river, list_prev(list_head(river)));
+    tstrip_free(top);
+    top = NULL;
 
     /** IMPRIME RIO ***************************************************/
     list_select(river, HEAD, strip_print);
