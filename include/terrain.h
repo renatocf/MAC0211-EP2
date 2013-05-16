@@ -7,7 +7,8 @@
 /* Tipo para terreno: struct com
  * campos de VELOCIDADE (v) e TIPO
  * DE TERRENO (t) */
-struct _terrain {
+struct _terrain
+{
     float v;
     char  t;
 };

@@ -26,12 +26,12 @@
 #define HEIGHT 30
 #define ISLAND 0.15
 #define LENGTH 100
-#define LMAX   33
-#define RMAX   67
+#define LMAX   40
+#define RMAX   80
 #define SEED   13
 
 /* Intervalo de tempo da animação */
-#define INTERVAL 1.4*10e4
+#define INTERVAL 1.4*10e3
 
 /*
 ////////////////////////////////////////////////////////////////////////
@@ -42,7 +42,8 @@
 */
 
 /* Opções da linha de comando */
-typedef struct options {
+typedef struct options
+{
     /* Opções de configuração */
     float f; /* Fluxo */
     int H;   /* Altura do rio */
@@ -79,43 +80,43 @@ int receive_arguments (int argc, char **argv, Options *args);
 int main(int argc, char **argv)
 {
     /** VARIÁVEIS *****************************************************/
-        int func_err;
-        clock_t init, end;
+    int func_err;
+    clock_t init, end;
 
-        /* Struct com argumentos da linha de comando */
-        Options args = { FLUX, HEIGHT, ISLAND, LENGTH, LMAX, RMAX, SEED };
+    /* Struct com argumentos da linha de comando */
+    Options args = { FLUX, HEIGHT, ISLAND, LENGTH, LMAX, RMAX, SEED };
 
     /** ARGUMENTOS ****************************************************/
-        func_err = receive_arguments(argc, argv, &args);
-        if(func_err) return EXIT_FAILURE;
+    func_err = receive_arguments(argc, argv, &args);
+    if(func_err) return EXIT_FAILURE;
 
-        if(args.h == 1)
-        {
-            printf("\n%s\n", help);
-            return EXIT_SUCCESS;
-        }
+    if(args.h == 1)
+    {
+        printf("\n%s\n", help);
+        return EXIT_SUCCESS;
+    }
 
     /** CONFIGURAÇÕES DO RIO ******************************************/
-        river_config_flux    (args.f);
-        river_config_size    (args.L, args.H);
-        river_config_island  (args.I);
-        river_config_margins (args.l, args.r);
+    river_config_flux    (args.f);
+    river_config_size    (args.L, args.H);
+    river_config_island  (args.I);
+    river_config_margins (args.l, args.r);
 
     /** ANIMAÇÃO DO RIO ***********************************************/
-        /* first_line = tstrip_generate(args.L, args.l, args.r, args.f, NO_BASE); */
-        river_animation_generate(args.s);
+    /* first_line = tstrip_generate(args.L, args.l, args.r, args.f, NO_BASE); */
+    river_animation_generate(args.s);
 
-        while(1)
-        {
-            for(end = init = clock(); end-init < INTERVAL; end = clock());
-            system("clear || cls");
-            river_animation_iterate();
-        }
+    while(1)
+    {
+        for(end = init = clock(); end-init < INTERVAL; end = clock());
+        system("clear || cls");
+        river_animation_iterate();
+    }
 
     /** LIBERAÇÃO DE MEMÓRIA ******************************************/
-        river_animation_finish();
+    river_animation_finish();
 
-   return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }
 
 
@@ -127,33 +128,41 @@ int main(int argc, char **argv)
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 */
 int receive_arguments(int argc, char **argv, Options *args)
-    /* Recebe os argumentos da linha de comando e os
-     * armazena na struct correspondente */
+/* Recebe os argumentos da linha de comando e os
+ * armazena na struct correspondente */
 {
     char opt; /* int i = 0; */
     while((opt = getopt(argc, argv, "f:H:I:L:l:r:s:h")) != NONE)
     {
         switch(opt)
         {
-            case 'f':
-                args->f = atof(optarg); break;
-            case 'H':
-                args->H = atoi(optarg); break;
-            case 'I':
-                args->I = atof(optarg); break;
-            case 'L':
-                args->L = atoi(optarg); break;
-            case 'l':
-                args->r = atoi(optarg); break;
-            case 'r':
-                args->s = atoi(optarg); break;
-            case 's':
-                args->s = atoi(optarg); break;
-            case 'h':
-                args->h = 1; break;
-            case '?':
-                printf("Argumento -%c desconhecido\n", optopt);
-                return EXIT_FAILURE;
+        case 'f':
+            args->f = atof(optarg);
+            break;
+        case 'H':
+            args->H = atoi(optarg);
+            break;
+        case 'I':
+            args->I = atof(optarg);
+            break;
+        case 'L':
+            args->L = atoi(optarg);
+            break;
+        case 'l':
+            args->l = atoi(optarg);
+            break;
+        case 'r':
+            args->r = atoi(optarg);
+            break;
+        case 's':
+            args->s = atoi(optarg);
+            break;
+        case 'h':
+            args->h = 1;
+            break;
+        case '?':
+            printf("Argumento -%c desconhecido\n", optopt);
+            return EXIT_FAILURE;
         }
     } /* while */
     return EXIT_SUCCESS;

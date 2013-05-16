@@ -2,7 +2,8 @@
 #define H_RIVER_INTERNAL_DEFINED
 
 typedef struct conf Conf;
-struct conf {
+struct conf
+{
     int   length;
     int   height;
     int   left_margin;
@@ -12,7 +13,7 @@ struct conf {
 };
 
 static Conf Config;
-static List river; 
+static List river;
 static TStrip base;
 
 /* Função auxiliar para imprimir
