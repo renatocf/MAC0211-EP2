@@ -9,7 +9,6 @@ PDF := $(patsubst %.tex,%.pdf,$(TEX))
 
 .PHONY: doc
 doc: $(PDF)
-	$(MV) $? ..
 
 .PHONY: clean
 clean:

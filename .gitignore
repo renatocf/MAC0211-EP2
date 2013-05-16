@@ -3,6 +3,12 @@
 bin/
 conf/dependencies.mk
 
+# LaTeX
+*.log
+*.aux
+*.out
+*.pdf
+
 # Bash files (for a while)
 *.bash
 
