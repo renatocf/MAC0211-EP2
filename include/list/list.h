@@ -20,6 +20,6 @@ void  list_free   (List);
 int   list_empty  (List);
 LItem list_remove (List, Link);
 void  list_insert (List, LItem);
-void  list_select (List, int, void (*visit) (LItem));
+void  list_select (List, int direction, void (*visit) (LItem));
 
 #endif

@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "test.h"
+#include "utils.h"
 #include "river.h"
 #include "strip.h"
 #include "getopt.h"
@@ -51,9 +53,11 @@ typedef struct options
     int Z;   /* Distancia de segurança entre as margens */
     float i; /* Probabilidade de gerar ilha */
     int s;   /* Semente */
-    int f;   /* Frequencia com que as ilhas aparecem(em numero de linhas) */
+    int f;   /* Frequência com que as ilhas aparecem 
+                (em número de linhas) */
 
     /* Opções booleanas */
+    int T;   /* Modo teste */
     int h;   /* Ajuda */
 } Options;
 
@@ -117,8 +121,9 @@ int main(int argc, char **argv)
 
     /** ANIMAÇÃO DO RIO ***********************************************/
     river_animation_generate(args.s);
-
-    while(1)
+    
+    if(args.T == TRUE) analyse_river(args.s);
+    else while(1)
     {
         for(end = init = clock(); end-init < INTERVAL; end = clock());
         system("clear || cls");
@@ -144,7 +149,7 @@ int receive_arguments(int argc, char **argv, Options *args)
  * armazena na struct correspondente */
 {
     char opt;
-    while((opt = getopt(argc, argv, "F:H:L:Z:i:s:f:h")) != NONE)
+    while((opt = getopt(argc, argv, "F:H:L:Z:i:s:f:Th")) != NONE)
     {
         switch(opt)
         {
@@ -168,6 +173,9 @@ int receive_arguments(int argc, char **argv, Options *args)
             break;
         case 'f':
             args->f = atoi(optarg);
+            break;
+        case 'T':
+            args->T = 1;
             break;
         case 'h':
             args->h = 1;
