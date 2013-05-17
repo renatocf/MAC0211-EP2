@@ -1,6 +1,8 @@
 #ifndef H_RIVER_INTERNAL_DEFINED
 #define H_RIVER_INTERNAL_DEFINED
 
+#include "river.h"
+
 typedef struct conf Conf;
 struct conf
 {

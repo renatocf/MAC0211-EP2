@@ -20,8 +20,9 @@ static void analyse_river (int seed);
 
 void analyse_program(int seed, int iterations)
 {
+    int i = 0;
+    for(i = 0; i < iterations; i++) river_animation_iterate();
     analyse_river(seed);
-    
 }
 
 void analyse_river(int seed)
