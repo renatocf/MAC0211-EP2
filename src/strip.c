@@ -143,7 +143,7 @@ TStrip tstrip_generate(int size, int zone,
             }
             else if(nova[i].t != LAND)
             {
-                nova[i].v = base[i].v + abs(stat_gen_gaussian(0, 1));
+                nova[i].v = base[i].v + stat_gen_uniform_float()*base[i].v;
                 sum += nova[i].v;
                 nova[i].t = WATER;
             }
@@ -153,7 +153,7 @@ TStrip tstrip_generate(int size, int zone,
         else K = 0;
         for(i = lmargin; i <= rmargin; i++) (nova[i].v) *= K;
     }
-    
+
     return nova;
 }
 
