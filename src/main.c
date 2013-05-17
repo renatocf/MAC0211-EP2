@@ -24,16 +24,17 @@
 */
 
 /* Padrões para a gerar o rio */
-#define FLUX   73.54
-#define HEIGHT 30
-#define LENGTH 100
-#define ZONE   10
-#define ISLAND 0.4
-#define SEED   13
-#define FREQ   5
+#define FLUX       73.54
+#define HEIGHT     30
+#define LENGTH     100
+#define ITERATIONS 10
+#define ZONE       10
+#define ISLAND     0.4
+#define SEED       13
+#define FREQ       5
 
 /* Intervalo de tempo da animação */
-#define INTERVAL 1.4*10e4
+#define INTERVAL   1.4*10e4
 
 /*
 ////////////////////////////////////////////////////////////////////////
@@ -50,6 +51,7 @@ typedef struct options
     float F; /* Fluxo */
     int H;   /* Altura do rio */
     int L;   /* Largura do rio */
+    int N;   /* Número de iterações */
     int Z;   /* Distancia de segurança entre as margens */
     float i; /* Probabilidade de gerar ilha */
     int s;   /* Semente */
@@ -122,7 +124,7 @@ int main(int argc, char **argv)
     /** ANIMAÇÃO DO RIO ***********************************************/
     river_animation_generate(args.s);
     
-    if(args.T == TRUE) analyse_river(args.s);
+    if(args.T == TRUE) analyse_program(args.s, args.N);
     else while(1)
     {
         for(end = init = clock(); end-init < INTERVAL; end = clock());
@@ -161,6 +163,9 @@ int receive_arguments(int argc, char **argv, Options *args)
             break;
         case 'L':
             args->L = atoi(optarg);
+            break;
+        case 'N':
+            args->N = atoi(optarg);
             break;
         case 'Z':
             args->Z = atoi(optarg);

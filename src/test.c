@@ -14,9 +14,17 @@ static int maxl_mean = 0;
 static int maxr_mean = 0;
 static int  n_lines = 0;
 static char last_char;
-static void analyse_lines(TStrip strip);
 
-int analyse_river(int seed)
+static void analyse_lines (TStrip strip);
+static void analyse_river (int seed);
+
+void analyse_program(int seed, int iterations)
+{
+    analyse_river(seed);
+    
+}
+
+void analyse_river(int seed)
 {
     printf("\n\n\n\n\n");
     printf("Análise da estrutura do Jogo:\n");
@@ -40,8 +48,6 @@ int analyse_river(int seed)
             (float) maxl_mean/(Config.height));
     printf("Média do limite da margem direita:  %.2f\n", 
             (float) maxr_mean/(Config.height));
-    
-    return EXIT_SUCCESS;
 }
 
 static void analyse_lines(TStrip strip)
