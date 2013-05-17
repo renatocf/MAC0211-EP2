@@ -21,7 +21,9 @@ static void analyse_river (int seed);
 void analyse_program(int seed, int iterations)
 {
     int i = 0;
-    for(i = 0; i < iterations; i++) river_animation_iterate();
+    printf("\n");
+    for(i = 0; i < iterations-1; i++)
+        { river_animation_iterate(); printf("\n"); }
     analyse_river(seed);
 }
 
@@ -40,14 +42,14 @@ void analyse_river(int seed)
     printf("* Probabilidade de gerar ilha: %.3f\n", Config.prob_island);
     printf("* Distância mínima para geração de ilhas: %d\n", Config.freq_island);
     printf("\n");
-    
-    n_lines = 0; 
+
+    n_lines = 0;
     list_select(river, HEAD, analyse_lines);
-    
+
     printf("\n\n");
     printf("Média do limite da margem esquerda: %.2f\n",
             (float) maxl_mean/(Config.height));
-    printf("Média do limite da margem direita:  %.2f\n", 
+    printf("Média do limite da margem direita:  %.2f\n",
             (float) maxr_mean/(Config.height));
 }
 
@@ -55,32 +57,32 @@ static void analyse_lines(TStrip strip)
 {
     int i = 0;      /* Contador */
     float flux = 0; /* Velocidade média */
-    
+
     int n_water = 0; /* Pixels com água */
     int n_lands = 0; /* Pixels com terra */
-    
+
     int lmargin = 0; /* Por causa das ilhas,
                         precisamos garantir que
                         a primeira margem esquerda
                         econtrada seja contabilizada */
-    
+
     n_lines++; /* Total de linhas analisadas */
     last_char = strip[0].t; /* Primeiro terreno */
-    
+
     /* Analisa/imprime a n_lines-ésima linha */
     printf("\nLinha %d:\n", n_lines);
     for(i = 0; i < Config.length; i++)
     {
         printf("%c", strip[i].t);
-        if(strip[i].t == WATER) 
+        if(strip[i].t == WATER)
         {
-            if(last_char == LAND && !lmargin) 
+            if(last_char == LAND && !lmargin)
                 { maxl = i; maxl_mean += i; lmargin = 1; }
             n_water++;
         }
-        else 
+        else
         {
-            if(last_char == WATER) 
+            if(last_char == WATER)
                 { maxr = i; maxr_mean += i; }
             n_lands++;
         }
@@ -88,7 +90,7 @@ static void analyse_lines(TStrip strip)
         flux += strip[i].v;
     }
     printf("\n");
-    
+
     /* Relatório sobre a linha: */
     printf("Quantidade de água  (%c): %d\n", WATER, n_water);
     printf("Quantidade de terra (%c): %d\n", LAND, n_lands);

@@ -55,7 +55,7 @@ typedef struct options
     int Z;   /* Distancia de segurança entre as margens */
     float i; /* Probabilidade de gerar ilha */
     int s;   /* Semente */
-    int f;   /* Frequência com que as ilhas aparecem 
+    int f;   /* Frequência com que as ilhas aparecem
                 (em número de linhas) */
 
     /* Opções booleanas */
@@ -103,7 +103,8 @@ int main(int argc, char **argv)
     clock_t init, end;
 
     /* Struct com argumentos da linha de comando */
-    Options args = { FLUX, HEIGHT, LENGTH, ZONE, ISLAND, SEED, FREQ };
+    Options args = { FLUX, HEIGHT, LENGTH, ITERATIONS, ZONE, ISLAND,
+                     SEED, FREQ };
 
     /** ARGUMENTOS ****************************************************/
     func_err = receive_arguments(argc, argv, &args);
@@ -123,7 +124,7 @@ int main(int argc, char **argv)
 
     /** ANIMAÇÃO DO RIO ***********************************************/
     river_animation_generate(args.s);
-    
+
     if(args.T == TRUE) analyse_program(args.s, args.N);
     else while(1)
     {
@@ -151,7 +152,7 @@ int receive_arguments(int argc, char **argv, Options *args)
  * armazena na struct correspondente */
 {
     char opt;
-    while((opt = getopt(argc, argv, "F:H:L:Z:i:s:f:Th")) != NONE)
+    while((opt = getopt(argc, argv, "F:H:L:N:Z:i:s:f:Th")) != NONE)
     {
         switch(opt)
         {

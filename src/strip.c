@@ -50,7 +50,7 @@ TStrip tstrip_generate(int size, int zone,
         }
 
         /* Gera terra na margem direita com velocidade 0.*/
-        for(i = size-1; i >= rmargin; i--)
+        for(i = rmargin; i < size ; i++)
         {
             nova[i].v = 0;
             nova[i].t = LAND;
@@ -59,14 +59,16 @@ TStrip tstrip_generate(int size, int zone,
          * nas casas laterais, em que v = 0). Vai somando os valores
          * (Ω) para posterior normalização. */
 
-        for(i = lmargin+2; i < rmargin-1; i++)
+        for(i = lmargin+1; i < rmargin; i++)
         {
             nova[i].t = WATER;
-            nova[i].v = stat_gen_uniform(0, PI);
-            sum += nova[i].v;
+            if(i == lmargin+1 || i == rmargin-1)nova[i].v = 0;
+            else
+            {
+                nova[i].v = stat_gen_uniform(0, PI);
+                sum += nova[i].v;
+            }
         }
-        nova[lmargin+1].v = 0;
-        nova[rmargin-1].v = 0;
 
         /* Cria constante de normalização K = Φ/Ω para manter o
          * fluxo desejado constante. */
