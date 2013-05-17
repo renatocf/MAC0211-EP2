@@ -34,7 +34,7 @@
 #define FREQ       5
 
 /* Intervalo de tempo da animação */
-#define INTERVAL   1.4*10e4
+#define INTERVAL   1.4*10e3
 
 /*
 ////////////////////////////////////////////////////////////////////////
