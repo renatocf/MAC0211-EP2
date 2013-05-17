@@ -37,9 +37,9 @@ int analyse_river(int seed)
     
     printf("\n\n");
     printf("Média do limite da margem esquerda: %.2f\n",
-            (float) maxl_mean/(Config.length));
+            (float) maxl_mean/(Config.height));
     printf("Média do limite da margem direita:  %.2f\n", 
-            (float) maxr_mean/(Config.length));
+            (float) maxr_mean/(Config.height));
     
     return EXIT_SUCCESS;
 }

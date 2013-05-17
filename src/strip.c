@@ -59,7 +59,7 @@ TStrip tstrip_generate(int size, int zone,
          * nas casas laterais, em que v = 0). Vai somando os valores
          * (Ω) para posterior normalização. */
 
-        for(i = 1; i < size-1; i++)
+        for(i = lmargin+2; i < rmargin-1; i++)
         {
             nova[i].t = WATER;
             nova[i].v = stat_gen_uniform(0, PI);
@@ -71,7 +71,7 @@ TStrip tstrip_generate(int size, int zone,
         /* Cria constante de normalização K = Φ/Ω para manter o
          * fluxo desejado constante. */
         K = normalization/sum;
-        for(i = lmargin+2; i <= rmargin-2; i++) nova[i].v *= K;
+        for(i = 0; i < size; i++) nova[i].v *= K;
     }
     else /* Temos uma linha base */
     {
@@ -153,6 +153,7 @@ TStrip tstrip_generate(int size, int zone,
         else K = 0;
         for(i = lmargin; i <= rmargin; i++) (nova[i].v) *= K;
     }
+    
     return nova;
 }
 
