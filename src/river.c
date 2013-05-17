@@ -63,6 +63,7 @@ void river_animation_generate(int seed)
     int length = Config.length;      /* Largura total do rio         */
     int freq = Config.freq_island;   /* Distancia entre as ilhas     */
     float prob = Config.prob_island; /* Probabilidade de haver ilha  */
+    Link new_node;
 
     /* Inicializa semente geradora de faixas de terreno
      * e cria lista para colocá-las: nosso cenário */
@@ -71,15 +72,17 @@ void river_animation_generate(int seed)
 
     /** INICIALIZA RIO ************************************************/
     /* Primeira linha, que servirá de base para todo o rio */
-    first_line = tstrip_generate(length, zone, flux, NO_BASE);
+    first_line = tstrip_generate(length, zone, flux, NO_BASE, NULL);
+    new_node = list_new_node(first_line);
 
     /* Preenche 'altura' faixas de terreno na lista: */
-    list_insert(river, first_line);
+    list_insert(river, new_node);
 
     for(i = 1, base = first_line; i < height; i++, base = new_line)
     {
-        new_line = tstrip_generate(length, zone, flux, base);
-        list_insert(river, new_line);
+        new_line = tstrip_generate(length, zone, flux, base, NULL);
+        new_node = list_new_node(new_line);
+        list_insert(river, new_node);
     }
 
     /** IMPRIME RIO ***************************************************/
@@ -89,21 +92,26 @@ void river_animation_generate(int seed)
 void river_animation_iterate()
 {
     /** VARIÁVEIS *****************************************************/
-    TStrip top, bottom;
+    TStrip top/*, bottom*/;
     float flux = Config.flux;       /* Fluxo do rio              */
     int length = Config.length;     /* Largura do grid           */
     int zone = Config.zone;         /* Zona de conforto          */
+    Link new_node;
 
     /** AVANÇA FAIXA DE TERRENO ***************************************/
-    /* Cria linha da base do grid ('entrando na tela') */
-    top = tstrip_generate(length, zone, flux, base);
-    base = top;
-    list_insert(river, top);
 
-    /* Libera linha do topo do grid ('saindo da tela') */
-    bottom = list_remove(river, list_prev(list_head(river)));
-    tstrip_free(bottom);
-    bottom = NULL;
+   /* Libera linha do topo do grid ('saindo da tela') */
+    new_node = list_remove(river, list_prev(list_head(river)));
+    /*tstrip_free(bottom);*/
+    /*bottom = NULL;*/
+
+    /* Cria linha da base do grid ('entrando na tela') */
+    top = tstrip_generate(length, zone, flux, base, list_item(new_node));
+    base = top;
+    /*free(node);*/
+    list_insert(river, new_node);
+
+
 
     /** IMPRIME RIO ***************************************************/
     list_select(river, HEAD, strip_print);

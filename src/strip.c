@@ -27,11 +27,11 @@ void tstrip_free(TStrip strip)
 
 
 TStrip tstrip_generate(int size, int zone,
-                       float normalization, TStrip base)
+                       float normalization, TStrip base, TStrip nova)
 {
-    TStrip nova = (TStrip) mallocSafe(size * sizeof(*nova));
     int lmargin, rmargin, maxl, maxr, i;
     float sum = 0, K;
+    if(nova == NULL) nova = (TStrip) mallocSafe(size * sizeof(*nova));
 
     maxl = stat_gen_uniform_int(1, size-zone-1);
     maxr = maxl + zone;
