@@ -16,21 +16,6 @@ int stat_gen_uniform(int min, int max)
     return (min + k);
 }
 
-float stat_gen_gaussian(float mean, float stdDev)
-{
-    float u, v, s, mul;
-    do
-    {
-        u = 2.0*rand()/RAND_MAX - 1;
-        v = 2.0*rand()/RAND_MAX - 1;
-        s = u * u + v * v;
-    }
-    while (s >= 1 || s == 0);
-    mul = sqrt(-2.0*log(s)/s);
-
-    return mean + stdDev * u * mul;
-}
-
 /*Gera ńúmeros aleatórios de 0 a 1*/
 float stat_gen_uniform_float()
 {
