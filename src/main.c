@@ -78,8 +78,8 @@ char help[] = "Jogo das canoas!\n"
               "-t: Modo de testes simples\n"
               "-T: Modo de testes completo\n"
               "-h: Ajuda\n"
-
-              "Para mais informações veja a documentação.\n";
+              "\n"
+              "Para mais informações, veja a documentação.\n";
 
 /*
 ////////////////////////////////////////////////////////////////////////
