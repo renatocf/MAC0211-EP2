@@ -19,7 +19,7 @@ Link  list_prev   (Link);
 LItem list_item   (Link);
 void  list_free   (List);
 int   list_empty  (List);
-Link list_remove  (List, Link);
+void list_remove  (List, Link);
 void  list_insert (List, Link);
 void  list_select (List, int direction, void (*visit) (LItem));
 

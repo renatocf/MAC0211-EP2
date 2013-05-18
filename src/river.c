@@ -101,14 +101,12 @@ void river_animation_iterate()
     /** AVANÇA FAIXA DE TERRENO ***************************************/
 
    /* Libera linha do topo do grid ('saindo da tela') */
-    new_node = list_remove(river, list_prev(list_head(river)));
-    /*tstrip_free(bottom);*/
-    /*bottom = NULL;*/
+    new_node = list_prev(list_head(river));
+    list_remove(river, new_node);
 
     /* Cria linha da base do grid ('entrando na tela') */
     top = tstrip_generate(length, zone, flux, base, list_item(new_node));
     base = top;
-    /*free(node);*/
     list_insert(river, new_node);
 
 

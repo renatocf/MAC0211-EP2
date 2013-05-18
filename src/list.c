@@ -36,18 +36,14 @@ int list_empty(List list)
     return 0;
 }
 
-Link list_remove(List list, Link node)
+void list_remove(List list, Link node)
 {
     Link aux;
-    /*LItem item = node->item;*/
     aux = node->prev;
     aux->next = node->next;
     if(node->next != NULL) node->next->prev = aux;
     node->next = NULL;
     node->prev = NULL;
-
-    /*free(node);*/
-    return node;
 }
 
 void list_insert(List list, Link new)
