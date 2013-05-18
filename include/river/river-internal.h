@@ -20,6 +20,7 @@ Conf Config;
 
 /* Função auxiliar para imprimir
  * a faixa de terra */
+void save_base   (TStrip);
 void strip_print (TStrip);
 
 #endif

@@ -89,7 +89,7 @@ static void analyse_lines(TStrip strip)
     
     /* Checa se devemos ou não imprimir mensagens de erro 
      * (conforme modo de testes simples ou completo) */
-    print = (test_mode == SIMPLE) ? (print = 0) : (print = 1);
+    (test_mode == SIMPLE) ? (print = 0) : (print = 1);
     
     /* Analisa/imprime a n_lines-ésima linha */
     if(print) printf("\nLinha %d:\n", n_lines);
