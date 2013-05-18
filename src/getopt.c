@@ -1,4 +1,4 @@
-#include<string.h>
+#include <string.h>
 #include "getopt.h"
 
 int optind = 1;
@@ -113,7 +113,7 @@ char getopt(int argc, char **argv, char *optstring)
                 if(arg_position != NONE)
                     move_to_init(argv, arg_position);
                 
-                if(option == '?') return '?';
+                if(option == '?') { return '?'; }
                 /* Opção desconhecida */
                 
                 return option;

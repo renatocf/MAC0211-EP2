@@ -1,7 +1,15 @@
+/* Bibliotecas padrão */
 #include <stdlib.h>
 
+/* Bibliotecas internas */
 #include "utils.h"
 #include "list-internal.h"
+
+/* 'Getters' para estruturas da lista */
+Link  list_head (List list) { return list->head; }
+Link  list_next (Link node) { return node->next; }
+Link  list_prev (Link node) { return node->prev; }
+LItem list_item (Link node) { return node->item; }
 
 List list_init(int N)
 {
@@ -52,26 +60,6 @@ void list_insert(List list, Link new)
     new->prev = list->head;
     new->next->prev = new;
     new->prev->next = new;
-}
-
-Link  list_head(List list)
-{
-    return list->head;
-}
-
-Link  list_next(Link node)
-{
-    return node->next;
-}
-
-Link  list_prev(Link node)
-{
-    return node->prev;
-}
-
-LItem list_item(Link node)
-{
-    return node->item;
 }
 
 void list_select(List list, int direction, void (*visit) (LItem))
