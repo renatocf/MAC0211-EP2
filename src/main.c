@@ -68,17 +68,18 @@ typedef struct options
 char help[] = "Jogo das canoas!\n"
               "\n"
               "Opções:\n"
-              "-F fluxo de cada linha\n"
-              "-H altura da janela\n"
-              "-L largura da janela\n"
-              "-Z distancia mínima entre as margens\n"
-              "-i probabilidade de haver ilha em determinada linha\n"
-              "-s seed para a geração de números pseudo-aleatórios\n"
-              "-f distancia mínima entre as ilhas\n"
-              "-h ajuda\n"
+              "-F: Fluxo de cada linha\n"
+              "-H: Altura da janela\n"
+              "-L: Largura da janela\n"
+              "-Z: Distancia mínima entre as margens\n"
+              "-i: Probabilidade de haver ilha em determinada linha\n"
+              "-s: Seed para a geração de números pseudo-aleatórios\n"
+              "-f: Distancia mínima entre as ilhas\n"
+              "-t: Modo de testes simples\n"
+              "-T: Modo de testes completo\n"
+              "-h: Ajuda\n"
 
               "Para mais informações veja a documentação.\n";
-
 
 /*
 ////////////////////////////////////////////////////////////////////////

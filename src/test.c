@@ -12,11 +12,11 @@
 
 static int maxl;
 static int maxr;
-static int maxl_mean = 0;
-static int maxr_mean = 0;
-static int test_mode = 0;
-static int n_lines = 0;
 static char last_char;
+static int n_lines = 0;
+static int test_mode = 0;
+static float maxl_mean = 0;
+static float maxr_mean = 0;
 
 static void analyse_lines (TStrip strip);
 static void print_lines (TStrip strip);
@@ -51,15 +51,15 @@ void analyse_river(int seed)
     printf("* Probabilidade de gerar ilha: %.3f\n", Config.prob_island);
     printf("* Distância mínima para geração de ilhas: %d\n", Config.freq_island);
     printf("\n");
-
+    
     n_lines = 0;
     list_select(river, HEAD, analyse_lines);
-
-    printf("\n\n");
+    
+    if(test_mode != SIMPLE) printf("\n\n");
     printf("Média do limite da margem esquerda: %.2f\n",
-            (float) maxl_mean/(Config.height));
+           1.0 * maxl_mean/Config.height);
     printf("Média do limite da margem direita:  %.2f\n",
-            (float) maxr_mean/(Config.height));
+            1.0 * maxr_mean/Config.height);
 }
 
 static void print_lines(TStrip strip)
@@ -73,6 +73,7 @@ static void print_lines(TStrip strip)
 static void analyse_lines(TStrip strip)
 {
     int i = 0;      /* Contador */
+    int print;      /* Imprimir ou não */
     float flux = 0; /* Velocidade média */
 
     int n_water = 0; /* Pixels com água */
@@ -82,15 +83,19 @@ static void analyse_lines(TStrip strip)
                         precisamos garantir que
                         a primeira margem esquerda
                         econtrada seja contabilizada */
-
+    
     n_lines++; /* Total de linhas analisadas */
     last_char = strip[0].t; /* Primeiro terreno */
-
+    
+    /* Checa se devemos ou não imprimir mensagens de erro 
+     * (conforme modo de testes simples ou completo) */
+    print = (test_mode == SIMPLE) ? (print = 0) : (print = 1);
+    
     /* Analisa/imprime a n_lines-ésima linha */
-    printf("\nLinha %d:\n", n_lines);
+    if(print) printf("\nLinha %d:\n", n_lines);
     for(i = 0; i < Config.length; i++)
     {
-        printf("%c", strip[i].t);
+        if(print) printf("%c", strip[i].t);
         if(strip[i].t == WATER)
         {
             if(last_char == LAND && !lmargin)
@@ -106,12 +111,12 @@ static void analyse_lines(TStrip strip)
         last_char = strip[i].t;
         flux += strip[i].v;
     }
-    printf("\n");
+    if(print) printf("\n");
 
     /* Relatório sobre a linha: */
-    printf("Quantidade de água  (%c): %d\n", WATER, n_water);
-    printf("Quantidade de terra (%c): %d\n", LAND, n_lands);
-    printf("Posição da margem esquerda: %d\n", maxl);
-    printf("Posição da margem direita:  %d\n", maxr);
-    printf("Fluxo: %.3f\n", flux);
+    if(print) printf("Quantidade de água  (%c): %d\n", WATER, n_water);
+    if(print) printf("Quantidade de terra (%c): %d\n", LAND, n_lands);
+    if(print) printf("Posição da margem esquerda: %d\n", maxl);
+    if(print) printf("Posição da margem direita:  %d\n", maxr);
+    if(print) printf("Fluxo: %.3f\n", flux);
 }
