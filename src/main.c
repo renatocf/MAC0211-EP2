@@ -59,7 +59,8 @@ typedef struct options
                 (em número de linhas) */
 
     /* Opções booleanas */
-    int T;   /* Modo teste */
+    int t;   /* Modo teste simples */
+    int T;   /* Modo teste completo */
     int h;   /* Ajuda */
 } Options;
 
@@ -99,12 +100,12 @@ int receive_arguments (int argc, char **argv, Options *args);
 int main(int argc, char **argv)
 {
     /** VARIÁVEIS *****************************************************/
-    int func_err;
+    int func_err; int test_mode;
     clock_t init, end;
 
     /* Struct com argumentos da linha de comando */
     Options args = { FLUX, HEIGHT, LENGTH, ITERATIONS, ZONE, ISLAND,
-                     SEED, FREQ };
+                     SEED, FREQ, 0, 0, 0};
 
     /** ARGUMENTOS ****************************************************/
     func_err = receive_arguments(argc, argv, &args);
@@ -125,7 +126,8 @@ int main(int argc, char **argv)
     /** ANIMAÇÃO DO RIO ***********************************************/
     river_animation_generate(args.s);
 
-    if(args.T == TRUE) analyse_program(args.s, args.N);
+    test_mode = args.t + args.T;
+    if(test_mode) analyse_program(args.s, args.N, test_mode);
     else while(1)
     {
         for(end = init = clock(); end-init < INTERVAL; end = clock());
@@ -152,7 +154,7 @@ int receive_arguments(int argc, char **argv, Options *args)
  * armazena na struct correspondente */
 {
     char opt;
-    while((opt = getopt(argc, argv, "F:H:L:N:Z:i:s:f:Th")) != NONE)
+    while((opt = getopt(argc, argv, "F:H:L:N:Z:i:s:f:tTh")) != NONE)
     {
         switch(opt)
         {
@@ -180,8 +182,11 @@ int receive_arguments(int argc, char **argv, Options *args)
         case 'f':
             args->f = atoi(optarg);
             break;
+        case 't':
+            args->t = 1;
+            break;
         case 'T':
-            args->T = 1;
+            args->T = 2;
             break;
         case 'h':
             args->h = 1;

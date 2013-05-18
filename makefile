@@ -31,7 +31,7 @@ OBJ := $(addprefix $(OBJDIR)/,$(OBJ))         # Adiciona diretório
 
 # COMPILER #############################################################
 CLIBS  := $(patsubst %,-I%,$(shell find include -type d))
-CFLAGS := -ansi -Wall -pedantic -g
+CFLAGS := -ansi -Wall -pedantic -g -fPIC
 
 # LINKER ###############################################################
 LDLIBS  := -L$(LIBDIR)

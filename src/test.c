@@ -8,23 +8,28 @@
 #include "terrain.h"
 #include "river-internal.h"
 
+#define SIMPLE 1
+
 static int maxl;
 static int maxr;
 static int maxl_mean = 0;
 static int maxr_mean = 0;
-static int  n_lines = 0;
+static int test_mode = 0;
+static int n_lines = 0;
 static char last_char;
 
 static void analyse_lines (TStrip strip);
+static void print_lines (TStrip strip);
 static void analyse_river (int seed);
 
-void analyse_program(int seed, int iterations)
+void analyse_program(int seed, int iterations, int mode)
 {
-    int i = 0;
-    printf("\n");
+    int i = 0; /* Contador para número de iterações */
+    test_mode = mode;
+    
     for(i = 0; i < iterations-1; i++)
-        { river_animation_iterate(); printf("\n"); }
-    analyse_river(seed);
+        { system("clear||cls"); river_animation_iterate(); }
+    printf("\n"); analyse_river(seed);
 }
 
 void analyse_river(int seed)
@@ -32,6 +37,10 @@ void analyse_river(int seed)
     printf("\n\n\n\n\n");
     printf("Análise da estrutura do Jogo:\n");
     printf("-------------------------------------------------------\n");
+    printf("\n");
+    printf("Último frame:\n");
+    printf("\n");
+    list_select(river, HEAD, print_lines);
     printf("\n");
     printf("Configurações do rio\n");
     printf("\n");
@@ -51,6 +60,14 @@ void analyse_river(int seed)
             (float) maxl_mean/(Config.height));
     printf("Média do limite da margem direita:  %.2f\n",
             (float) maxr_mean/(Config.height));
+}
+
+static void print_lines(TStrip strip)
+{
+    int i = 0;      /* Contador */
+    for(i = 0; i < Config.length; i++)
+        printf("%c", strip[i].t);
+    printf("\n");
 }
 
 static void analyse_lines(TStrip strip)
