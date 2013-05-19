@@ -1,5 +1,8 @@
-MAC0211-EP2
-===========
+MAC0211-EP2: Jogo das Canoas
+============================
+
+INFORMAÇÔES
+-----------
 
 MAC 0211 - Laboratório de Programação I   
 IME-USP  - Primeiro  Semestre  de  2013   
@@ -14,3 +17,12 @@ Ruan de Menezes Costa           7990929
                                            
 Em caso de eventuais problemas, acesse:       
 https://github.com/renatocf/MAC0211-EP2/   
+
+INSTALAÇÃO 
+----------
+
+Para instalar o jogo, basta digitar no 
+terminal:  
+    $ make  
+que toda a documentação e o executável
+do jogo serão gerados.
