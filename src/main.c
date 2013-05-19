@@ -88,8 +88,9 @@ char help[] = "Jogo das canoas!\n"
 -----------------------------------------------------------------------
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 */
-int receive_arguments (int argc, char **argv, Options *args);
-
+static int  receive_arguments (int argc, char **argv, Options *args);
+static int  menu              (Options *args); 
+static void configurations    (Options *args);
 
 /*
 ////////////////////////////////////////////////////////////////////////
@@ -101,23 +102,31 @@ int receive_arguments (int argc, char **argv, Options *args);
 int main(int argc, char **argv)
 {
     /** VARIÁVEIS *****************************************************/
-    int func_err; int test_mode;
+    int func_err; int test_mode = 0;
     clock_t init, end;
 
     /* Struct com argumentos da linha de comando */
     Options args = { FLUX, HEIGHT, LENGTH, ITERATIONS, ZONE, ISLAND,
                      SEED, FREQ, 0, 0, 0};
 
-    /** ARGUMENTOS ****************************************************/
+    /** ARGUMENTOS/MENU ***********************************************/
     func_err = receive_arguments(argc, argv, &args);
     if(func_err) return EXIT_FAILURE;
-
+    
     if(args.h == 1)
     {
         printf("\n%s\n", help);
         return EXIT_SUCCESS;
     }
-
+    
+    /* Modo de teste: */
+    test_mode = args.t + args.T;
+    
+    /* Chamada para o nosso menu do usuário:
+     * Quando ele devolve 'falha', o usuário quer sair do jogo */
+    if(!test_mode) func_err = menu(&args);
+    if(func_err == EXIT_FAILURE) return EXIT_SUCCESS;
+    
     /** CONFIGURAÇÕES DO RIO ******************************************/
     river_config_flux    (args.F);
     river_config_size    (args.L, args.H);
@@ -126,7 +135,7 @@ int main(int argc, char **argv)
 
     /** ANIMAÇÃO DO RIO ***********************************************/
     river_animation_generate(args.s);
-
+    
     test_mode = args.t + args.T;
     if(test_mode) analyse_program(args.s, args.N, test_mode);
     else while(1)
@@ -150,7 +159,7 @@ int main(int argc, char **argv)
 -----------------------------------------------------------------------
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 */
-int receive_arguments(int argc, char **argv, Options *args)
+static int receive_arguments(int argc, char **argv, Options *args)
 /* Recebe os argumentos da linha de comando e os
  * armazena na struct correspondente */
 {
@@ -198,4 +207,100 @@ int receive_arguments(int argc, char **argv, Options *args)
         }
     } /* while */
     return EXIT_SUCCESS;
+}
+
+static int menu(Options *args)
+{
+    int option;
+    while(1)
+    {
+        system("clear||cls"); /* Limpa a tela */
+        
+        /* Nossa ASCII Art: */
+        printf("........................   .........................................\n");
+        printf(":::::::::::::::::::::::::.   '::::::::::::::::::::::::::::::::::::::\n");
+        printf(";;;;;;;;;;;;;;;;;;;;;;;;;;;.      ::;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\n");
+        printf("+++++++++++++++++++++++++++++        +++++++++++++++++++++++++++++++\n");
+        printf("+++++++++++++++++++++++++++++++         ++++++++++++++++++++++++++++\n");
+        printf("++++++++++++++++++++++++++++++++           +++++++++++++++++++++++++\n");
+        printf("================================             =======================\n");
+        printf("===============================                =====================\n");
+        printf("oooooooooooooooooooooooooooooo                   ooooooooooooooooooo\n");
+        printf("oooooooooooooooooooooooooooo                      oooooooooooooooooo\n");
+        printf("$$$$$$$$$$$$$$$$$$$$$$$$$    ,   .                 $$$$$$$$$$$$$$$$$\n");
+        printf("$$$$$$$$$$$$$$$$$$$$$$$    ,´,'¨¨¨`.¨¨'            $$$$$$$$$$$$$$$$$\n");
+        printf("$$$$$$$$$$$$$$$$$$$$     ,´Y|______Y`.|            $$$$$$$$$$$$$$$$$\n");
+        printf("##################    _,´,|______,´   `.          ##################\n");
+        printf("###############      | ,´      ,´   ,`  |¨|      ###################\n");
+        printf("#############        ,´______,´   ,´    |_|    #####################\n");
+        printf("@@@@@@@@@@           \\       /  ,´           @@@@@@@@@@@@@@@@@@@@@@@\n");
+        printf("@@@@@@@               \\     / ,´           @@@@@@@@@@@@@@@@@@@@@@@@@\n");
+        printf("@@@@                   `---'´            @@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+        printf("                                                                    \n");
+        printf("--------------------------------------------------------------------\n");
+        printf("                        JOGO DAS CANOAS!                            \n");
+        printf("--------------------------------------------------------------------\n");
+        printf("                                                                    \n");
+        printf(" 1) Jogar                                                           \n");
+        printf(" 2) Configurar jogo                                                 \n");
+        printf(" 3) Modo teste (simples)                                            \n");
+        printf(" 4) Modo teste (completo)                                           \n");
+        printf(" 5) Sair                                                            \n");
+        printf("                                                                    \n");
+        printf(" Selecione sua opção: ");
+        
+        /* Seleciona opção */
+        scanf("%d", &option);
+        switch(option)
+        {
+            case 1:
+                break;
+            case 2: 
+                configurations(args);
+                break;
+            case 3:
+                args->t = 1;
+                break;
+            case 4:
+                args->T = 2;
+                break;
+            case 5:
+                return EXIT_FAILURE;
+            default:
+                printf("Opção não reconhecida\n");
+                
+        } /* swithc */
+        return EXIT_SUCCESS;
+        
+    } /* while(1) */
+}
+
+static void configurations(Options *args)
+{
+    char ans;
+    printf("Insira as configurações:\n");
+    
+    printf("Deseja configurar o fluxo do rio? "); scanf("%c", &ans);
+    if(ans == 's' || ans == 'y' || ans == 'S' || ans == 'Y') 
+    { printf("Fluxo do rio: "); scanf("%f", &args->F); }
+    
+    printf("Deseja configurar a altura do rio? "); scanf("%c", &ans);
+    if(ans == 's' || ans == 'y' || ans == 'S' || ans == 'Y') 
+    { printf("Altura do rio: "); scanf("%d", &args->H); }
+    
+    printf("Deseja configurar a largura do rio? "); scanf("%c", &ans);
+    if(ans == 's' || ans == 'y' || ans == 'S' || ans == 'Y') 
+    { printf("Largura do rio: "); scanf("%d", &args->L); }
+    
+    printf("Deseja configurar a distância mínima entre as margens? "); scanf("%c", &ans);
+    if(ans == 's' || ans == 'y' || ans == 'S' || ans == 'Y') 
+        printf("Distância mínima das margens: "); scanf("%d", &args->Z);
+    
+    printf("Deseja configurar a distância mínima entre ilhas? "); scanf("%c", &ans);
+    if(ans == 's' || ans == 'y' || ans == 'S' || ans == 'Y') 
+        printf("Distancia mínima entre ilhas: "); scanf("%d", &args->f);
+    
+    printf("Deseja configurar a probabilidade de gerar ilhas? "); scanf("%c", &ans);
+    if(ans == 's' || ans == 'y' || ans == 'S' || ans == 'Y') 
+        printf("Probabilidade de gerar ilhas: "); scanf("%f", &args->i);
 }
