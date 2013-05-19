@@ -1,15 +1,57 @@
+/***************************************************/
+/**  MAC 0211  -  Laboratório de Programação I    **/
+/**  IME-USP   -  Primeiro  Semestre  de    2013  **/
+/**  Turma 45  -  Kelly Rosa Bragheto             **/
+/**                                               **/
+/**  Segundo   Exercício-Programa                 **/
+/**  Arquivo:  strip.c                            **/
+/**                                               **/
+/**  Karina Suemi Awoki                  7572102  **/
+/**  Renato Cordeiro Ferreira            7990933  **/
+/**  Ruan de Menezes Costa               7990929  **/
+/**                                               **/
+/**  Em caso de eventuais problemas, acesse:      **/
+/**  git@github.com:renatocf/MAC0211-EP2.git      **/
+/***************************************************/ 
+
+/*
+////////////////////////////////////////////////////////////////////////
+-----------------------------------------------------------------------
+                              BIBLIOTECAS
+-----------------------------------------------------------------------
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+*/
+
+/* Bibliotecas-padrão */
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
+/* Bibliotecas internas */
 #include "strip.h"
 #include "utils.h"
 #include "terrain.h"
 #include "statistical.h"
 
+/*
+////////////////////////////////////////////////////////////////////////
+-----------------------------------------------------------------------
+                           VARIÁVEIS GLOBAIS 
+-----------------------------------------------------------------------
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+*/
+
 int j = 0;         /* Nº de frames desde última ilha */
 int freq_island;   /* Intervalo de surgimento de ilhas */
 float prob_island; /* Probabilidade de haver uma ilha na linha */
+
+/*
+////////////////////////////////////////////////////////////////////////
+-----------------------------------------------------------------------
+                                 FUNÇÕES    
+-----------------------------------------------------------------------
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+*/
 
 /* Insere semente da biblioteca estatística */
 void tstrip_seed  (int seed)
