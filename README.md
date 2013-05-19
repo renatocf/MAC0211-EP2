@@ -23,6 +23,6 @@ INSTALAÇÃO
 
 Para instalar o jogo, basta digitar no 
 terminal:  
-    $ make  
+        $ make  
 que toda a documentação e o executável
 do jogo serão gerados.
