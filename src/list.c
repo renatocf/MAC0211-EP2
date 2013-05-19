@@ -17,6 +17,7 @@ List list_init(int N)
     new->head = (Link) mallocSafe(sizeof(*new->head));
     new->head->next = new->head;
     new->head->prev = new->head;
+    new->head->item = NULL;
     return new;
 }
 
@@ -32,8 +33,12 @@ Link list_new_node(LItem item)
 void list_free(List list)
 {
     while(!list_empty(list))
+    {
         list_remove(list, list->head->next);
-    free(list_head(list));
+        free(list->head->next->item);
+        free(list->head->next);
+    }
+    /*free(list_head(list));*/
     free(list);
 }
 
