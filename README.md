@@ -21,6 +21,8 @@ https://github.com/renatocf/MAC0211-EP2/
 
 Para instalar o jogo, basta digitar no 
 terminal:  
-        $ make  
+
+    $ make  
+
 que toda a documentação e o executável
 do jogo serão gerados.
