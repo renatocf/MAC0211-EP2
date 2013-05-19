@@ -1,5 +1,6 @@
 /* Bibliotecas padrão */
 #include <stdlib.h>
+#include <stdio.h>
 
 /* Bibliotecas internas */
 #include "utils.h"
@@ -38,9 +39,8 @@ void list_free(List list)
         dead = list_remove(list, list->head->next);
         free(dead->item);
         free(dead);
-        /* free(list->head->next->item); */
-        /* free(list->head->next); */
     }
+    
     free(list_head(list));
     free(list);
 }

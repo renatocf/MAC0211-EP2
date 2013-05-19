@@ -137,15 +137,17 @@ int main(int argc, char **argv)
     river_config_margins (args.Z);
 
     /** ANIMAÇÃO DO RIO ***********************************************/
-    river_animation_generate(args.s);
-    
     test_mode = args.t + args.T;
     if(test_mode) analyse_program(args.s, args.N, test_mode, args.o);
-    else while(1)
+    else 
     {
-        for(end = init = clock(); end-init < INTERVAL; end = clock());
-        system("clear || cls");
-        river_animation_iterate();
+        river_animation_generate(args.s);
+        while(1)
+        {
+            for(end = init = clock(); end-init < INTERVAL; end = clock());
+            system("clear || cls");
+            river_animation_iterate();
+        }
     }
 
     /** LIBERAÇÃO DE MEMÓRIA ******************************************/

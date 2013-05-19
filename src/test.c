@@ -67,7 +67,7 @@ void analyse_program(int seed, int iterations, int mode, char output[SIZE_NAME])
         int i = 0;             /* Contador para número de iterações  */
         char ans;              /* Resposta para as perguntas         */
         char out[SIZE_NAME+1]; /* Nome corrigido (com \0)            */
-        
+
         test_mode = mode;      /* Modo de teste simples/completo     */
     
     /** ABRE STREAM ***************************************************/
@@ -82,17 +82,25 @@ void analyse_program(int seed, int iterations, int mode, char output[SIZE_NAME])
         else { OUT = stdout; is_stdout = 1; }
     
     /** TESTE 1: OPÇÕES DO JOGADOR ************************************/
+        /* Zerando todas nossas variáveis para o teste */
+        n_lines = test_mode = maxr_mean = maxl_mean = 0;
+        
         fprintf(stdout, "\nTeste nº 1: Opções do jogador:\n");
         fprintf(stdout, "Deseja prosseguir com o teste? ");  
         scanf(" "); scanf("%c", &ans);
         if(ans == 's' || ans == 'y' || ans == 'S' || ans == 'Y')
         {
+            river_animation_generate(seed);
             for(i = 0; i < iterations-1; i++)
                 { system("clear||cls"); river_animation_iterate(); }
             fprintf(OUT, "\n"); analyse_river(seed, OUT);
+            river_animation_finish();
         }
     
     /** TESTE 2: ROBUSTEZ *********************************************/
+        /* Zerando todas nossas variáveis para o teste */
+        n_lines = test_mode = maxr_mean = maxl_mean = 0;
+        
         fprintf(stdout, "\nTeste nº 2: Teste de Robustez:\n");
         fprintf(stdout, "Deseja prosseguir com o teste? ");
         scanf(" "); scanf("%c", &ans);
@@ -100,10 +108,13 @@ void analyse_program(int seed, int iterations, int mode, char output[SIZE_NAME])
         {
             river_config_size    (4, 1); /* Rio 4x1 */
             river_config_margins (1);    /* Pequena zona de conforto  */
+            printf("%d", Config.height);
             
+            river_animation_generate(seed);
             for(i = 0; i < iterations-1; i++)
                 { system("clear||cls"); river_animation_iterate(); }
             fprintf(OUT, "\n"); analyse_river(seed, OUT);
+            river_animation_finish();
         }
     
     /** FECHA STREAM **************************************************/
