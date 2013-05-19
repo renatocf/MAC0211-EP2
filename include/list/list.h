@@ -18,7 +18,7 @@ Link  list_prev     (Link);
 LItem list_item     (Link);
 void  list_free     (List);
 int   list_empty    (List);
-void  list_remove   (List, Link);
+Link  list_remove   (List, Link);
 void  list_insert   (List, Link);
 void  list_select   (List, int direction, void (*visit) (LItem));
 Link  list_new_node (LItem);

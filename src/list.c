@@ -32,13 +32,16 @@ Link list_new_node(LItem item)
 
 void list_free(List list)
 {
+    Link dead;
     while(!list_empty(list))
     {
-        list_remove(list, list->head->next);
-        free(list->head->next->item);
-        free(list->head->next);
+        dead = list_remove(list, list->head->next);
+        free(dead->item);
+        free(dead);
+        /* free(list->head->next->item); */
+        /* free(list->head->next); */
     }
-    /*free(list_head(list));*/
+    free(list_head(list));
     free(list);
 }
 
@@ -49,7 +52,7 @@ int list_empty(List list)
     return 0;
 }
 
-void list_remove(List list, Link node)
+Link list_remove(List list, Link node)
 {
     Link aux;
     aux = node->prev;
@@ -57,6 +60,7 @@ void list_remove(List list, Link node)
     if(node->next != NULL) node->next->prev = aux;
     node->next = NULL;
     node->prev = NULL;
+    return node;
 }
 
 void list_insert(List list, Link new)
