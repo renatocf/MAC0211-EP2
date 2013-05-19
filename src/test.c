@@ -99,7 +99,7 @@ void analyse_program(int seed, int iterations, int mode, char output[SIZE_NAME])
     
     /** TESTE 1: OPÇÕES DO JOGADOR ************************************/
         /* Zerando todas nossas variáveis para o teste */
-        n_lines = test_mode = maxr_mean = maxl_mean = 0;
+        n_lines = maxr_mean = maxl_mean = 0;
         
         fprintf(stdout, "\nTeste nº 1: Opções do jogador:\n");
         fprintf(stdout, "Deseja prosseguir com o teste? ");  
@@ -115,7 +115,7 @@ void analyse_program(int seed, int iterations, int mode, char output[SIZE_NAME])
     
     /** TESTE 2: ROBUSTEZ *********************************************/
         /* Zerando todas nossas variáveis para o teste */
-        n_lines = test_mode = maxr_mean = maxl_mean = 0;
+        n_lines = maxr_mean = maxl_mean = 0;
         
         fprintf(stdout, "\nTeste nº 2: Teste de Robustez:\n");
         fprintf(stdout, "Deseja prosseguir com o teste? ");
@@ -139,7 +139,6 @@ void analyse_program(int seed, int iterations, int mode, char output[SIZE_NAME])
 
 void analyse_river(int seed, FILE *OUT)
 {
-    printf("Problemas?\n");
     fprintf(OUT, "\n\n\n\n\n");
     fprintf(OUT, "Análise da estrutura do Jogo:\n");
     fprintf(OUT, "-------------------------------------------------------\n");
