@@ -1,5 +1,17 @@
+/*
+////////////////////////////////////////////////////////////////////////
+-----------------------------------------------------------------------
+                              BIBLIOTECAS
+-----------------------------------------------------------------------
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+*/
+
+/* Bibliotecas padrão */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+/* Nossa biblioteca para o teste */
 #include "test.h"
 
 /* Bibliotecas incluídas para o teste */
@@ -8,57 +20,124 @@
 #include "terrain.h"
 #include "river-internal.h"
 
+/*
+////////////////////////////////////////////////////////////////////////
+-----------------------------------------------------------------------
+                          MACROS/VARIÁVEIS GLOBAIS
+-----------------------------------------------------------------------
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+*/
+
+/* Macro para tipo de teste simples
+ * (teste menos verboso, com análise final apenas) */
 #define SIMPLE 1
 
-static int maxl;
-static int maxr;
-static char last_char;
-static int n_lines = 0;
-static int test_mode = 0;
-static float maxl_mean = 0;
-static float maxr_mean = 0;
+/* Variáveis globais multiuso */
+static int   maxr;          /* Limite máximo direito            */
+static int   maxl;          /* Limite máximo esquerdo           */
+static int   n_lines = 0;   /* Número total de linhas           */
+static int   test_mode = 0; /* Modo de teste (simples/completo) */
+static char  last_char;     /* Último caracter checado          */
+static float maxr_mean = 0; /* Média dos limites direitos       */
+static float maxl_mean = 0; /* Média dos limites esquerdos      */
+static FILE *OUT;           /* Stream para imprimir relatório   */
 
+/*
+////////////////////////////////////////////////////////////////////////
+-----------------------------------------------------------------------
+                                PROTÓTIPOS         
+-----------------------------------------------------------------------
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+*/
+static void print_lines   (TStrip strip);
 static void analyse_lines (TStrip strip);
-static void print_lines (TStrip strip);
-static void analyse_river (int seed);
+static void analyse_river (int seed, FILE *OUT);
 
-void analyse_program(int seed, int iterations, int mode)
+/*
+////////////////////////////////////////////////////////////////////////
+-----------------------------------------------------------------------
+                             FUNÇÔES DE TESTE          
+-----------------------------------------------------------------------
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+*/
+void analyse_program(int seed, int iterations, int mode, char output[SIZE_NAME])
 {
-    int i = 0; /* Contador para número de iterações */
-    test_mode = mode;
+    /** VARIÁVEIS *****************************************************/
+        int is_stdout = 0;     /* Flag para indicar impressão stdout */
+        int i = 0;             /* Contador para número de iterações  */
+        char ans;              /* Resposta para as perguntas         */
+        char out[SIZE_NAME+1]; /* Nome corrigido (com \0)            */
+        
+        test_mode = mode;      /* Modo de teste simples/completo     */
     
-    for(i = 0; i < iterations-1; i++)
-        { system("clear||cls"); river_animation_iterate(); }
-    printf("\n"); analyse_river(seed);
+    /** ABRE STREAM ***************************************************/
+        if(strncmp((const char *) output, STDOUT, SIZE_NAME) != 0) 
+        {
+            for(i = 0; i < SIZE_NAME && output[i] != '\0'; i++)
+                out[i] = output[i];
+            for(; i <= SIZE_NAME; i++)
+                out[i] = '\0';
+            OUT = fopen(out, "w");
+        }
+        else { OUT = stdout; is_stdout = 1; }
+    
+    /** TESTE 1: OPÇÕES DO JOGADOR ************************************/
+        fprintf(stdout, "\nTeste nº 1: Opções do jogador:\n");
+        fprintf(stdout, "Deseja prosseguir com o teste? ");  
+        scanf(" "); scanf("%c", &ans);
+        if(ans == 's' || ans == 'y' || ans == 'S' || ans == 'Y')
+        {
+            for(i = 0; i < iterations-1; i++)
+                { system("clear||cls"); river_animation_iterate(); }
+            fprintf(OUT, "\n"); analyse_river(seed, OUT);
+        }
+    
+    /** TESTE 2: ROBUSTEZ *********************************************/
+        fprintf(stdout, "\nTeste nº 2: Teste de Robustez:\n");
+        fprintf(stdout, "Deseja prosseguir com o teste? ");
+        scanf(" "); scanf("%c", &ans);
+        if(ans == 's' || ans == 'y' || ans == 'S' || ans == 'Y')
+        {
+            river_config_size    (4, 1); /* Rio 4x1 */
+            river_config_margins (1);    /* Pequena zona de conforto  */
+            
+            for(i = 0; i < iterations-1; i++)
+                { system("clear||cls"); river_animation_iterate(); }
+            fprintf(OUT, "\n"); analyse_river(seed, OUT);
+        }
+    
+    /** FECHA STREAM **************************************************/
+        if(!is_stdout) fclose(OUT);
 }
 
-void analyse_river(int seed)
+void analyse_river(int seed, FILE *OUT)
 {
-    printf("\n\n\n\n\n");
-    printf("Análise da estrutura do Jogo:\n");
-    printf("-------------------------------------------------------\n");
-    printf("\n");
-    printf("Último frame:\n");
-    printf("\n");
+    printf("Problemas?\n");
+    fprintf(OUT, "\n\n\n\n\n");
+    fprintf(OUT, "Análise da estrutura do Jogo:\n");
+    fprintf(OUT, "-------------------------------------------------------\n");
+    fprintf(OUT, "\n");
+    fprintf(OUT, "Último frame:\n");
+    fprintf(OUT, "\n");
     list_select(river, HEAD, print_lines);
-    printf("\n");
-    printf("Configurações do rio\n");
-    printf("\n");
-    printf("* Fluxo: %.3f\n", Config.flux);
-    printf("* Altura da tela: %d\n", Config.height);
-    printf("* Largura da tela: %d\n", Config.length);
-    printf("* 'Zona de conforto': %d\n", Config.zone);
-    printf("* Probabilidade de gerar ilha: %.3f\n", Config.prob_island);
-    printf("* Distância mínima para geração de ilhas: %d\n", Config.freq_island);
-    printf("\n");
+    fprintf(OUT, "\n");
+    fprintf(OUT, "Configurações do rio\n");
+    fprintf(OUT, "\n");
+    fprintf(OUT, "* Fluxo: %.3f\n", Config.flux);
+    fprintf(OUT, "* Altura da tela: %d\n", Config.height);
+    fprintf(OUT, "* Largura da tela: %d\n", Config.length);
+    fprintf(OUT, "* 'Zona de conforto': %d\n", Config.zone);
+    fprintf(OUT, "* Probabilidade de gerar ilha: %.3f\n", Config.prob_island);
+    fprintf(OUT, "* Distância mínima para geração de ilhas: %d\n", Config.freq_island);
+    fprintf(OUT, "\n");
     
     n_lines = 0;
     list_select(river, HEAD, analyse_lines);
     
-    if(test_mode != SIMPLE) printf("\n\n");
-    printf("Média do limite da margem esquerda: %.2f\n",
+    if(test_mode != SIMPLE) fprintf(OUT, "\n\n");
+    fprintf(OUT, "Média do limite da margem esquerda: %.2f\n",
            1.0 * maxl_mean/Config.height);
-    printf("Média do limite da margem direita:  %.2f\n",
+    fprintf(OUT, "Média do limite da margem direita:  %.2f\n",
             1.0 * maxr_mean/Config.height);
 }
 
@@ -66,8 +145,8 @@ static void print_lines(TStrip strip)
 {
     int i = 0;      /* Contador */
     for(i = 0; i < Config.length; i++)
-        printf("%c", strip[i].t);
-    printf("\n");
+        fprintf(OUT, "%c", strip[i].t);
+    fprintf(OUT, "\n");
 }
 
 static void analyse_lines(TStrip strip)
@@ -92,10 +171,10 @@ static void analyse_lines(TStrip strip)
     (test_mode == SIMPLE) ? (print = 0) : (print = 1);
     
     /* Analisa/imprime a n_lines-ésima linha */
-    if(print) printf("\nLinha %d:\n", n_lines);
+    if(print) fprintf(OUT, "\nLinha %d:\n", n_lines);
     for(i = 0; i < Config.length; i++)
     {
-        if(print) printf("%c", strip[i].t);
+        if(print) fprintf(OUT, "%c", strip[i].t);
         if(strip[i].t == WATER)
         {
             if(last_char == LAND && !lmargin)
@@ -111,12 +190,12 @@ static void analyse_lines(TStrip strip)
         last_char = strip[i].t;
         flux += strip[i].v;
     }
-    if(print) printf("\n");
+    if(print) fprintf(OUT, "\n");
 
     /* Relatório sobre a linha: */
-    if(print) printf("Quantidade de água  (%c): %d\n", WATER, n_water);
-    if(print) printf("Quantidade de terra (%c): %d\n", LAND, n_lands);
-    if(print) printf("Posição da margem esquerda: %d\n", maxl);
-    if(print) printf("Posição da margem direita:  %d\n", maxr);
-    if(print) printf("Fluxo: %.3f\n", flux);
+    if(print) fprintf(OUT, "Quantidade de água  (%c): %d\n", WATER, n_water);
+    if(print) fprintf(OUT, "Quantidade de terra (%c): %d\n", LAND, n_lands);
+    if(print) fprintf(OUT, "Posição da margem esquerda: %d\n", maxl);
+    if(print) fprintf(OUT, "Posição da margem direita:  %d\n", maxr);
+    if(print) fprintf(OUT, "Fluxo: %.3f\n", flux);
 }
