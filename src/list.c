@@ -73,18 +73,8 @@ void list_free(List list)
         free(dead);
     }
 
-    if(list != NULL)free(list_head(list));
-    if(list != NULL)free(list);
-    /* Link dead; */
-    /* while(!list_empty(list)) */
-    /* { */
-    /*     dead = list_remove(list, list->head->next); */
-    /*     free(dead->item); */
-    /*     free(dead); */
-    /* } */
-    /*  */
-    /* free(list_head(list)); */
-    /* free(list); */
+    if(list != NULL) free(list_head(list));
+    if(list != NULL) free(list);
 }
 
 int list_empty(List list)

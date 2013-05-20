@@ -328,13 +328,13 @@ static void configurations(Options *args)
     
     printf(" Deseja configurar a distância mínima entre as margens? "); scanf(" %c", &ans);
     if(ans == 's' || ans == 'y' || ans == 'S' || ans == 'Y') 
-        printf(" Distância mínima das margens: "); scanf("%d", &args->Z);
+    { printf(" Distância mínima das margens: "); scanf("%d", &args->Z); }
     
     printf(" Deseja configurar a distância mínima entre ilhas? "); scanf(" %c", &ans);
     if(ans == 's' || ans == 'y' || ans == 'S' || ans == 'Y') 
-        printf(" Distancia mínima entre ilhas: "); scanf("%d", &args->f);
+    { printf(" Distancia mínima entre ilhas: "); scanf("%d", &args->f); }
     
     printf(" Deseja configurar a probabilidade de gerar ilhas? "); scanf(" %c", &ans);
     if(ans == 's' || ans == 'y' || ans == 'S' || ans == 'Y') 
-        printf(" Probabilidade de gerar ilhas: "); scanf("%f", &args->i);
+    { printf(" Probabilidade de gerar ilhas: "); scanf("%f", &args->i); }
 }

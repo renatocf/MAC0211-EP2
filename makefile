@@ -58,7 +58,7 @@ LDFLAGS += $(filter -l%,$(patsubst lib%.a,-l%,$(LIBS))) \
 
 
 .PHONY: all
-all: $(DEP) $(BIN) $(DOC)
+all: $(DEP) $(BIN) doc
 -include $(DEP)
 
 .PHONY: doc
